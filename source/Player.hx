@@ -31,6 +31,12 @@ class Player extends FlxSprite
 		
 		makeGraphic(32, 48);
 		
+		width -= 2;
+		offset.x = 1;
+		
+		height -= 4;
+		offset.y = 4;
+		
 		// drag.y = 1600;
 		maxVelocity.x = speed * 1.1;
 		
@@ -87,7 +93,7 @@ class Player extends FlxSprite
 				
 				if (jumpCounts > 0)
 				{
-					jumpingCooldown = 0.75;
+					jumpingCooldown = 0.8;
 				}
 				
 				jumpCounts += 1;
@@ -103,7 +109,7 @@ class Player extends FlxSprite
 					}
 					else if (!_left && !_right)
 					{
-						velocity.x *= 0.8;
+						velocity.x *= 0.77;
 						jumpedStraightUp = true;
 					}
 					
@@ -113,14 +119,28 @@ class Player extends FlxSprite
 						velocity.y -= baseJumpStrength * 0.2;
 					}
 					
+					var oldVel = velocity.x;
+					var reverseJumpMult:Float = 1.25;
+					var xSlowdown:Float = 1.2;
+					
 					if (_left)
 					{
 						velocity.x = -speed;
+						if (velocity.x - oldVel < velocity.x)
+						{
+							jumpingCooldown = reverseJumpMult;
+							velocity.x /= reverseJumpMult * xSlowdown;
+						}
 					}
 					
 					if (_right)
 					{
 						velocity.x = speed;
+						if (velocity.x + oldVel < velocity.x)
+						{
+							jumpingCooldown = reverseJumpMult;
+							velocity.x /= reverseJumpMult * xSlowdown;
+						}
 					}
 					
 					justJumped = true;
@@ -128,7 +148,7 @@ class Player extends FlxSprite
 				
 			}
 			
-			drag.x = 1600 * 0.5;
+			drag.x = 1600 * 0.65;
 			acceleration.x = 0;
 		}
 		else
@@ -150,7 +170,7 @@ class Player extends FlxSprite
 				else
 				{
 					velocity.y -= C * (baseJumpStrength * 1.2) * jumpingCooldown;
-					FlxG.watch.addQuick("cosine", C);
+					//FlxG.watch.addQuick("cosine", C);
 				}
 			}
 			
@@ -165,10 +185,10 @@ class Player extends FlxSprite
 				_left = _right = false;
 			}
 			
-			var accX:Float = 0.97;
+			var accX:Float = 1.3;
 			
 			if (jumpedStraightUp)
-				accX += 2.8;
+				accX += 2.9;
 			
 			if (!justJumped)
 			{
@@ -189,6 +209,7 @@ class Player extends FlxSprite
 			if (_rightR || _leftR)
 			{
 				jumpedStraightUp = false;
+				acceleration.x = 0;
 			}
 			
 			drag.x = 0;
