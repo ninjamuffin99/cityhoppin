@@ -19,6 +19,8 @@ class PlayState extends FlxState
 	
 	override public function create():Void
 	{
+		FlxG.camera.fade(FlxColor.BLACK, 3, true);
+		
 		_player = new Player();
 		add(_player);
 		
