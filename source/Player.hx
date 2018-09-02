@@ -38,7 +38,7 @@ class Player extends FlxSprite
 		scale.set(2, 2);
 		animation.add("stand", [0]);
 		animation.add("jump", [1]);
-		animation.add("dash", [2]);
+		animation.add("dash", [3]);
 		
 		setFacingFlip(FlxObject.LEFT, false, false);
 		setFacingFlip(FlxObject.RIGHT, true, false);
@@ -113,9 +113,14 @@ class Player extends FlxSprite
 			jumpCounts = 0;
 		}
 		
+		if (justTouched(FlxObject.FLOOR))
+		{
+			FlxG.sound.play(AssetPaths.hitGround__wav, 0.7);
+		}
+		
 		if (isTouching(FlxObject.FLOOR))
 		{
-			animation.play("stand");
+			
 			justJumped = false;
 			apexReached = false;
 			canJump = true;
@@ -179,6 +184,7 @@ class Player extends FlxSprite
 						{
 							jumpingCooldown = reverseJumpMult;
 							velocity.x /= reverseJumpMult * xSlowdown;
+							FlxG.sound.play(AssetPaths.boost__wav, 0.7);
 						}
 					}
 					
@@ -198,6 +204,7 @@ class Player extends FlxSprite
 						{
 							jumpingCooldown = reverseJumpMult;
 							velocity.x /= reverseJumpMult * xSlowdown;
+							FlxG.sound.play(AssetPaths.boost__wav, 0.7);
 						}
 					}
 					
@@ -205,6 +212,14 @@ class Player extends FlxSprite
 				}
 				
 			}
+			
+			if (!justJumped)
+				animation.play("stand");
+			else if (sideBoosting)
+				FlxG.sound.play(AssetPaths.sideJump__wav, 0.7);
+			else
+				FlxG.sound.play(AssetPaths.jumpBase__wav, 0.7);
+				
 			
 			drag.x = 1600 * 0.75;
 			acceleration.x = 0;

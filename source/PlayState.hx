@@ -7,6 +7,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.tile.FlxTilemap;
+import flixel.util.FlxColor;
 
 class PlayState extends FlxState
 {
@@ -37,6 +38,8 @@ class PlayState extends FlxState
 		FlxG.camera.follow(_player, FlxCameraFollowStyle.PLATFORMER);
 		_player.setPosition(player_start.x, player_start.y);
 		
+		FlxG.sound.playMusic(AssetPaths.ambience__mp3, 2.4);
+		
 		super.create();
 	}
 	override public function update(elapsed:Float):Void
@@ -46,6 +49,11 @@ class PlayState extends FlxState
 		super.update(elapsed);
 		
 		FlxG.collide(_player, _map.foregroundTiles);
+		
+		if (_player.x < 0 - _player.width)
+		{
+			FlxG.camera.fade(FlxColor.WHITE, 0.5, false, function(){FlxG.switchState(new EndState()); });
+		}
 		
 		
 	}
