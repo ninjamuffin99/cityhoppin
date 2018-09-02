@@ -33,13 +33,21 @@ class Player extends FlxSprite
 	{
 		super(X, Y, SimpleGraphic);
 		
-		makeGraphic(32, 48);
+		//makeGraphic(32, 48);
+		loadGraphic(AssetPaths.player__png, true , 40, 60);
+		scale.set(2, 2);
+		animation.add("stand", [0]);
+		animation.add("jump", [1]);
+		animation.add("dash", [2]);
 		
-		width -= 2;
+		setFacingFlip(FlxObject.LEFT, false, false);
+		setFacingFlip(FlxObject.RIGHT, true, false);
+		
+		width -= 2 - 8;
 		offset.x = 1;
 		
-		height -= 4;
-		offset.y = 4;
+		height -= 4 - 12;
+		offset.y = 20;
 		
 		// drag.y = 1600;
 		
@@ -78,7 +86,6 @@ class Player extends FlxSprite
 		_rightR = FlxG.keys.anyJustReleased([RIGHT, D]);
 		
 		
-		
 		var _upP:Bool = false;
 		var _downP:Bool = false;
 		var _leftP:Bool = false;
@@ -90,6 +97,16 @@ class Player extends FlxSprite
 		_rightP = FlxG.keys.anyJustPressed([RIGHT, D]);
 		
 		
+		if ( velocity.x > 0)
+		{
+			facing = FlxObject.RIGHT;
+		}
+		if ( velocity.x < 0)
+		{
+			facing = FlxObject.LEFT;
+		}
+		
+		
 		if (_upR)
 		{
 			jumpingCooldown = 1;
@@ -98,6 +115,7 @@ class Player extends FlxSprite
 		
 		if (isTouching(FlxObject.FLOOR))
 		{
+			animation.play("stand");
 			justJumped = false;
 			apexReached = false;
 			canJump = true;
@@ -199,6 +217,12 @@ class Player extends FlxSprite
 		}
 		else
 		{
+			if (velocity.y < 0)
+				animation.play("jump");
+			if (sideBoosting)
+				animation.play("dash");
+			
+			
 			if (_down)
 			{
 				apexReached = true;

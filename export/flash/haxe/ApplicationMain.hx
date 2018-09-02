@@ -42,6 +42,26 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.TEXT);
 		
 		
+		urls.push ("assets/data/levelBG.kra");
+		types.push (lime.Assets.AssetType.BINARY);
+		
+		
+		urls.push ("assets/data/levelBG.kra~");
+		types.push (lime.Assets.AssetType.BINARY);
+		
+		
+		urls.push ("assets/data/levelBGpng.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/data/levelBGpng.png~");
+		types.push (lime.Assets.AssetType.BINARY);
+		
+		
+		urls.push ("assets/data/levelGood.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("assets/data/levelGood.tmx");
 		types.push (lime.Assets.AssetType.TEXT);
 		
@@ -54,11 +74,23 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.TEXT);
 		
 		
+		urls.push ("assets/images/levelBG.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("assets/images/mapSketch.kra");
 		types.push (lime.Assets.AssetType.BINARY);
 		
 		
 		urls.push ("assets/images/mapSketch.kra~");
+		types.push (lime.Assets.AssetType.BINARY);
+		
+		
+		urls.push ("assets/images/player.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/images/playerSpriteFile.aseprite");
 		types.push (lime.Assets.AssetType.BINARY);
 		
 		
@@ -155,7 +187,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "192",
+			build: "218",
 			company: "HaxeFlixel",
 			file: "GMTKJam",
 			fps: 60,

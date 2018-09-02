@@ -3,6 +3,7 @@ package;
 import flixel.FlxCamera.FlxCameraFollowStyle;
 import flixel.FlxG;
 import flixel.FlxObject;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.tile.FlxTilemap;
@@ -28,7 +29,12 @@ class PlayState extends FlxState
 		add(_map.objectsLayer);
 		add(_map.collisionTiles);
 		
-		FlxG.camera.follow(_player, FlxCameraFollowStyle.PLATFORMER, 0.5);
+		_map.foregroundTiles.forEach(function(t:FlxTilemap){t.visible = false; });
+		
+		var bg:FlxSprite = new FlxSprite().loadGraphic("assets/images/levelBG.png");
+		add(bg);
+		
+		FlxG.camera.follow(_player, FlxCameraFollowStyle.PLATFORMER);
 		_player.setPosition(player_start.x, player_start.y);
 		
 		super.create();

@@ -63,6 +63,14 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_nokiafc22_ttf);
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_monsterrat_ttf);
 		
@@ -78,16 +86,32 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/data/gmtk.oep", AssetType.TEXT);
 		className.set ("assets/data/level1.oel", __ASSET__assets_data_level1_oel);
 		type.set ("assets/data/level1.oel", AssetType.TEXT);
+		className.set ("assets/data/levelBG.kra", __ASSET__assets_data_levelbg_kra);
+		type.set ("assets/data/levelBG.kra", AssetType.BINARY);
+		className.set ("assets/data/levelBG.kra~", __ASSET__assets_data_levelbg_kra_);
+		type.set ("assets/data/levelBG.kra~", AssetType.BINARY);
+		className.set ("assets/data/levelBGpng.png", __ASSET__assets_data_levelbgpng_png);
+		type.set ("assets/data/levelBGpng.png", AssetType.IMAGE);
+		className.set ("assets/data/levelBGpng.png~", __ASSET__assets_data_levelbgpng_png_);
+		type.set ("assets/data/levelBGpng.png~", AssetType.BINARY);
+		className.set ("assets/data/levelGood.png", __ASSET__assets_data_levelgood_png);
+		type.set ("assets/data/levelGood.png", AssetType.IMAGE);
 		className.set ("assets/data/levelGood.tmx", __ASSET__assets_data_levelgood_tmx);
 		type.set ("assets/data/levelGood.tmx", AssetType.TEXT);
 		className.set ("assets/data/tileset.png", __ASSET__assets_data_tileset_png);
 		type.set ("assets/data/tileset.png", AssetType.IMAGE);
 		className.set ("assets/images/images-go-here.txt", __ASSET__assets_images_images_go_here_txt);
 		type.set ("assets/images/images-go-here.txt", AssetType.TEXT);
+		className.set ("assets/images/levelBG.png", __ASSET__assets_images_levelbg_png);
+		type.set ("assets/images/levelBG.png", AssetType.IMAGE);
 		className.set ("assets/images/mapSketch.kra", __ASSET__assets_images_mapsketch_kra);
 		type.set ("assets/images/mapSketch.kra", AssetType.BINARY);
 		className.set ("assets/images/mapSketch.kra~", __ASSET__assets_images_mapsketch_kra_);
 		type.set ("assets/images/mapSketch.kra~", AssetType.BINARY);
+		className.set ("assets/images/player.png", __ASSET__assets_images_player_png);
+		type.set ("assets/images/player.png", AssetType.IMAGE);
+		className.set ("assets/images/playerSpriteFile.aseprite", __ASSET__assets_images_playerspritefile_aseprite);
+		type.set ("assets/images/playerSpriteFile.aseprite", AssetType.BINARY);
 		className.set ("assets/music/music-goes-here.txt", __ASSET__assets_music_music_goes_here_txt);
 		type.set ("assets/music/music-goes-here.txt", AssetType.TEXT);
 		className.set ("assets/sounds/sounds-go-here.txt", __ASSET__assets_sounds_sounds_go_here_txt);
@@ -121,6 +145,26 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.TEXT);
+		id = "assets/data/levelBG.kra";
+		path.set (id, id);
+		
+		type.set (id, AssetType.BINARY);
+		id = "assets/data/levelBG.kra~";
+		path.set (id, id);
+		
+		type.set (id, AssetType.BINARY);
+		id = "assets/data/levelBGpng.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/data/levelBGpng.png~";
+		path.set (id, id);
+		
+		type.set (id, AssetType.BINARY);
+		id = "assets/data/levelGood.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
 		id = "assets/data/levelGood.tmx";
 		path.set (id, id);
 		
@@ -133,11 +177,23 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.TEXT);
+		id = "assets/images/levelBG.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
 		id = "assets/images/mapSketch.kra";
 		path.set (id, id);
 		
 		type.set (id, AssetType.BINARY);
 		id = "assets/images/mapSketch.kra~";
+		path.set (id, id);
+		
+		type.set (id, AssetType.BINARY);
+		id = "assets/images/player.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/images/playerSpriteFile.aseprite";
 		path.set (id, id);
 		
 		type.set (id, AssetType.BINARY);
@@ -200,6 +256,21 @@ class DefaultAssetLibrary extends AssetLibrary {
 		className.set ("assets/data/level1.oel", __ASSET__assets_data_level1_oel);
 		type.set ("assets/data/level1.oel", AssetType.TEXT);
 		
+		className.set ("assets/data/levelBG.kra", __ASSET__assets_data_levelbg_kra);
+		type.set ("assets/data/levelBG.kra", AssetType.BINARY);
+		
+		className.set ("assets/data/levelBG.kra~", __ASSET__assets_data_levelbg_kra_);
+		type.set ("assets/data/levelBG.kra~", AssetType.BINARY);
+		
+		className.set ("assets/data/levelBGpng.png", __ASSET__assets_data_levelbgpng_png);
+		type.set ("assets/data/levelBGpng.png", AssetType.IMAGE);
+		
+		className.set ("assets/data/levelBGpng.png~", __ASSET__assets_data_levelbgpng_png_);
+		type.set ("assets/data/levelBGpng.png~", AssetType.BINARY);
+		
+		className.set ("assets/data/levelGood.png", __ASSET__assets_data_levelgood_png);
+		type.set ("assets/data/levelGood.png", AssetType.IMAGE);
+		
 		className.set ("assets/data/levelGood.tmx", __ASSET__assets_data_levelgood_tmx);
 		type.set ("assets/data/levelGood.tmx", AssetType.TEXT);
 		
@@ -209,11 +280,20 @@ class DefaultAssetLibrary extends AssetLibrary {
 		className.set ("assets/images/images-go-here.txt", __ASSET__assets_images_images_go_here_txt);
 		type.set ("assets/images/images-go-here.txt", AssetType.TEXT);
 		
+		className.set ("assets/images/levelBG.png", __ASSET__assets_images_levelbg_png);
+		type.set ("assets/images/levelBG.png", AssetType.IMAGE);
+		
 		className.set ("assets/images/mapSketch.kra", __ASSET__assets_images_mapsketch_kra);
 		type.set ("assets/images/mapSketch.kra", AssetType.BINARY);
 		
 		className.set ("assets/images/mapSketch.kra~", __ASSET__assets_images_mapsketch_kra_);
 		type.set ("assets/images/mapSketch.kra~", AssetType.BINARY);
+		
+		className.set ("assets/images/player.png", __ASSET__assets_images_player_png);
+		type.set ("assets/images/player.png", AssetType.IMAGE);
+		
+		className.set ("assets/images/playerSpriteFile.aseprite", __ASSET__assets_images_playerspritefile_aseprite);
+		type.set ("assets/images/playerSpriteFile.aseprite", AssetType.BINARY);
 		
 		className.set ("assets/music/music-goes-here.txt", __ASSET__assets_music_music_goes_here_txt);
 		type.set ("assets/music/music-goes-here.txt", AssetType.TEXT);
@@ -886,11 +966,19 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep @:bind #if display private #end class __ASSET__assets_data_data_goes_here_txt extends flash.utils.ByteArray { }
 @:keep @:bind #if display private #end class __ASSET__assets_data_gmtk_oep extends flash.utils.ByteArray { }
 @:keep @:bind #if display private #end class __ASSET__assets_data_level1_oel extends flash.utils.ByteArray { }
+@:keep @:bind #if display private #end class __ASSET__assets_data_levelbg_kra extends flash.utils.ByteArray { }
+@:keep @:bind #if display private #end class __ASSET__assets_data_levelbg_kra_ extends flash.utils.ByteArray { }
+@:keep @:bind #if display private #end class __ASSET__assets_data_levelbgpng_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_data_levelbgpng_png_ extends flash.utils.ByteArray { }
+@:keep @:bind #if display private #end class __ASSET__assets_data_levelgood_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_data_levelgood_tmx extends flash.utils.ByteArray { }
 @:keep @:bind #if display private #end class __ASSET__assets_data_tileset_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_images_images_go_here_txt extends flash.utils.ByteArray { }
+@:keep @:bind #if display private #end class __ASSET__assets_images_levelbg_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_images_mapsketch_kra extends flash.utils.ByteArray { }
 @:keep @:bind #if display private #end class __ASSET__assets_images_mapsketch_kra_ extends flash.utils.ByteArray { }
+@:keep @:bind #if display private #end class __ASSET__assets_images_player_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_images_playerspritefile_aseprite extends flash.utils.ByteArray { }
 @:keep @:bind #if display private #end class __ASSET__assets_music_music_goes_here_txt extends flash.utils.ByteArray { }
 @:keep @:bind #if display private #end class __ASSET__assets_sounds_sounds_go_here_txt extends flash.utils.ByteArray { }
 @:keep @:bind #if display private #end class __ASSET__flixel_sounds_beep_mp3 extends flash.media.Sound { }
@@ -902,6 +990,14 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 #elseif html5
+
+
+
+
+
+
+
+
 
 
 
@@ -931,11 +1027,19 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:file("assets/data/data-goes-here.txt") #if display private #end class __ASSET__assets_data_data_goes_here_txt extends lime.utils.Bytes {}
 @:file("assets/data/gmtk.oep") #if display private #end class __ASSET__assets_data_gmtk_oep extends lime.utils.Bytes {}
 @:file("assets/data/level1.oel") #if display private #end class __ASSET__assets_data_level1_oel extends lime.utils.Bytes {}
+@:file("assets/data/levelBG.kra") #if display private #end class __ASSET__assets_data_levelbg_kra extends lime.utils.Bytes {}
+@:file("assets/data/levelBG.kra~") #if display private #end class __ASSET__assets_data_levelbg_kra_ extends lime.utils.Bytes {}
+@:image("assets/data/levelBGpng.png") #if display private #end class __ASSET__assets_data_levelbgpng_png extends lime.graphics.Image {}
+@:file("assets/data/levelBGpng.png~") #if display private #end class __ASSET__assets_data_levelbgpng_png_ extends lime.utils.Bytes {}
+@:image("assets/data/levelGood.png") #if display private #end class __ASSET__assets_data_levelgood_png extends lime.graphics.Image {}
 @:file("assets/data/levelGood.tmx") #if display private #end class __ASSET__assets_data_levelgood_tmx extends lime.utils.Bytes {}
 @:image("assets/data/tileset.png") #if display private #end class __ASSET__assets_data_tileset_png extends lime.graphics.Image {}
 @:file("assets/images/images-go-here.txt") #if display private #end class __ASSET__assets_images_images_go_here_txt extends lime.utils.Bytes {}
+@:image("assets/images/levelBG.png") #if display private #end class __ASSET__assets_images_levelbg_png extends lime.graphics.Image {}
 @:file("assets/images/mapSketch.kra") #if display private #end class __ASSET__assets_images_mapsketch_kra extends lime.utils.Bytes {}
 @:file("assets/images/mapSketch.kra~") #if display private #end class __ASSET__assets_images_mapsketch_kra_ extends lime.utils.Bytes {}
+@:image("assets/images/player.png") #if display private #end class __ASSET__assets_images_player_png extends lime.graphics.Image {}
+@:file("assets/images/playerSpriteFile.aseprite") #if display private #end class __ASSET__assets_images_playerspritefile_aseprite extends lime.utils.Bytes {}
 @:file("assets/music/music-goes-here.txt") #if display private #end class __ASSET__assets_music_music_goes_here_txt extends lime.utils.Bytes {}
 @:file("assets/sounds/sounds-go-here.txt") #if display private #end class __ASSET__assets_sounds_sounds_go_here_txt extends lime.utils.Bytes {}
 @:file("C:/HaxeToolkit/haxe/lib/flixel/4,4,1/assets/sounds/beep.mp3") #if display private #end class __ASSET__flixel_sounds_beep_mp3 extends lime.utils.Bytes {}
