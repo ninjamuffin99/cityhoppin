@@ -25,6 +25,10 @@ class Player extends FlxSprite
 	private var jumpCounts:Int = 0;
 	private var canJump = false;
 	
+	private var sideBoost:Bool = false;
+	private var sideBoosting:Bool = false;
+	private var canSideBoost:Bool = false;
+	
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
@@ -38,7 +42,7 @@ class Player extends FlxSprite
 		offset.y = 4;
 		
 		// drag.y = 1600;
-		maxVelocity.x = speed * 1.1;
+		
 		
 		acceleration.y = 1500;
 		
@@ -73,6 +77,19 @@ class Player extends FlxSprite
 		_leftR = FlxG.keys.anyJustReleased([LEFT, A]);
 		_rightR = FlxG.keys.anyJustReleased([RIGHT, D]);
 		
+		
+		
+		var _upP:Bool = false;
+		var _downP:Bool = false;
+		var _leftP:Bool = false;
+		var _rightP:Bool = false;
+		
+		_upP = FlxG.keys.anyJustPressed([UP, W, SPACE]);
+		_downP = FlxG.keys.anyJustPressed([DOWN, S]);
+		_leftP = FlxG.keys.anyJustPressed([LEFT, A]);
+		_rightP = FlxG.keys.anyJustPressed([RIGHT, D]);
+		
+		
 		if (_upR)
 		{
 			jumpingCooldown = 1;
@@ -84,11 +101,12 @@ class Player extends FlxSprite
 			justJumped = false;
 			apexReached = false;
 			canJump = true;
+			canSideBoost = true;
+			sideBoosting = false;
 			jumpBoost = 0;
 			
 			if (_up)
 			{
-				
 				velocity.y -= baseJumpStrength * 1.3;
 				
 				if (jumpCounts > 0)
@@ -119,6 +137,11 @@ class Player extends FlxSprite
 						velocity.y -= baseJumpStrength * 0.2;
 					}
 					
+					if (jumpedStraightUp)
+					{
+						sideBoost = false;
+					}
+					
 					var oldVel = velocity.x;
 					var reverseJumpMult:Float = 1.25;
 					var xSlowdown:Float = 1.2;
@@ -126,6 +149,14 @@ class Player extends FlxSprite
 					if (_left)
 					{
 						velocity.x = -speed;
+						if (sideBoost && velocity.x - oldVel > velocity.x)
+						{
+							velocity.x = -maxVelocity.x;
+							jumpingCooldown = 1;
+							sideBoost = false;
+							sideBoosting = true;
+						}
+						
 						if (velocity.x - oldVel < velocity.x)
 						{
 							jumpingCooldown = reverseJumpMult;
@@ -136,6 +167,15 @@ class Player extends FlxSprite
 					if (_right)
 					{
 						velocity.x = speed;
+						
+						if (sideBoost && velocity.x + oldVel > velocity.x)
+						{
+							velocity.x = maxVelocity.x;
+							jumpingCooldown = 1;
+							sideBoost = false;
+							sideBoosting = true;
+						}
+						
 						if (velocity.x + oldVel < velocity.x)
 						{
 							jumpingCooldown = reverseJumpMult;
@@ -148,11 +188,23 @@ class Player extends FlxSprite
 				
 			}
 			
-			drag.x = 1600 * 0.65;
+			drag.x = 1600 * 0.75;
 			acceleration.x = 0;
+			
+			if (sideBoosting)
+				maxVelocity.x = speed * 2;
+			else
+				maxVelocity.x = speed;
+		
 		}
 		else
 		{
+			if (_down)
+			{
+				apexReached = true;
+				velocity.y += 10;
+			}
+			
 			if (isTouching(FlxObject.CEILING))
 			{
 				apexReached = true;
@@ -185,9 +237,9 @@ class Player extends FlxSprite
 				_left = _right = false;
 			}
 			
-			var accX:Float = 1.3;
+			var accX:Float = 1.4;
 			
-			if (jumpedStraightUp)
+			if (jumpedStraightUp || sideBoosting)
 				accX += 2.9;
 			
 			if (!justJumped)
@@ -212,8 +264,31 @@ class Player extends FlxSprite
 				acceleration.x = 0;
 			}
 			
+			if (canSideBoost)
+			{
+				if (velocity.x > 0 && _rightP && !jumpedStraightUp)
+				{
+					sideBoost = true;
+				}
+				if (velocity.x < 0 && _leftP && !jumpedStraightUp)
+				{
+					sideBoost = true;
+				}
+			}
+			
+			if (velocity.x > 0 && _leftP)
+			{
+				canSideBoost = false;
+			}
+			if (velocity.x < 0 && _rightP)
+			{
+				canSideBoost = false;
+			}
+			
 			drag.x = 0;
 		}
+		
+
 	}
 	
 }

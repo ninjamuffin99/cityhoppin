@@ -1,6 +1,8 @@
 package;
 
+import flixel.FlxCamera.FlxCameraFollowStyle;
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.tile.FlxTilemap;
@@ -8,8 +10,9 @@ import flixel.tile.FlxTilemap;
 class PlayState extends FlxState
 {
 	private var _player:Player;
+	public var player_start:FlxObject;
 	
-	private var _map:FlxOgmoLoader;
+	private var _map:TiledLevel;
 	private var _mWalls:FlxTilemap;
 	
 	override public function create():Void
@@ -17,34 +20,26 @@ class PlayState extends FlxState
 		_player = new Player();
 		add(_player);
 		
-		_map = new FlxOgmoLoader(AssetPaths.level1__oel);
-		_mWalls = _map.loadTilemap(AssetPaths.tileset__png, 32, 32, "walls");
-		_mWalls.follow();
-		_map.loadEntities(placeEntities, "entities");
-		add(_mWalls);
+		_map = new TiledLevel(AssetPaths.levelGood__tmx, this);
+		add(_map.backgroundLayer);
+		add(_map.imagesLayer);
+		add(_map.BGObjects);
+		add(_map.foregroundObjects);
+		add(_map.objectsLayer);
+		add(_map.collisionTiles);
 		
+		FlxG.camera.follow(_player, FlxCameraFollowStyle.PLATFORMER, 0.5);
+		_player.setPosition(player_start.x, player_start.y);
 		
 		super.create();
 	}
-	
-	function placeEntities(entityName:String, entityData:Xml):Void
-	{
-		var x:Int = Std.parseInt(entityData.get("x"));
-		var y:Int = Std.parseInt(entityData.get("y"));
-		if (entityName == "player")
-		{
-			_player.x = x;
-			_player.y = y;
-		}
-	}
-
 	override public function update(elapsed:Float):Void
 	{
 		
 		
 		super.update(elapsed);
 		
-		FlxG.collide(_player, _mWalls);
+		FlxG.collide(_player, _map.foregroundTiles);
 		
 		
 	}
