@@ -6,8 +6,13 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
+import flixel.math.FlxMath;
+import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxColor;
+
+import com.newgrounds.*;
+import com.newgrounds.components.*;
 
 class PlayState extends FlxState
 {
@@ -16,6 +21,9 @@ class PlayState extends FlxState
 	
 	private var _map:TiledLevel;
 	private var _mWalls:FlxTilemap;
+	
+	private var _timer:Float = 0;
+	private var _txtTimer:FlxText;
 	
 	override public function create():Void
 	{
@@ -42,6 +50,12 @@ class PlayState extends FlxState
 		
 		FlxG.sound.playMusic(AssetPaths.ambience__mp3, 2.4);
 		
+		
+		_txtTimer = new FlxText(20, 20, 0, "", 32);
+		_txtTimer.scrollFactor.set();
+		_txtTimer.visible = false;
+		add(_txtTimer);
+		
 		super.create();
 	}
 	override public function update(elapsed:Float):Void
@@ -52,9 +66,26 @@ class PlayState extends FlxState
 		
 		FlxG.collide(_player, _map.foregroundTiles);
 		
+		// Time in milliseconds I think
+		_timer += FlxG.elapsed * 0.001;
+		
+		_txtTimer.text = FlxMath.roundDecimal(_timer * 1000, 2) + "s";
+		
+		if (FlxG.keys.justPressed.T)
+		{
+			_txtTimer.visible = !_txtTimer.visible;
+		}
+		
 		if (_player.x < 0 - _player.width)
 		{
-			FlxG.camera.fade(FlxColor.WHITE, 0.5, false, function(){FlxG.switchState(new EndState()); });
+			FlxG.camera.fade(FlxColor.WHITE, 0.5, false, function()
+			{
+				API.unlockMedal("real gamer");
+				API.postScore("Fastest Completion", Std.int(_timer * 1000 * 1000));
+				API.postScore("Times beaten", 1);
+				EndState.time = FlxMath.roundDecimal(_timer * 1000, 2);
+				FlxG.switchState(new EndState()); 
+			});
 		}
 		
 		

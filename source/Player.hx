@@ -6,6 +6,10 @@ import flixel.FlxSprite;
 import flixel.math.FlxMath;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
+import com.newgrounds.*;
+import com.newgrounds.components.*;
+
+
 /**
  * ...
  * @author 
@@ -28,6 +32,8 @@ class Player extends FlxSprite
 	private var sideBoost:Bool = false;
 	private var sideBoosting:Bool = false;
 	private var canSideBoost:Bool = false;
+	
+	private var jumpsTotal:Int = 0;
 	
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
@@ -130,6 +136,13 @@ class Player extends FlxSprite
 			
 			if (_up)
 			{
+				jumpsTotal += 1;
+				
+				if (jumpsTotal == 7)
+				{
+					API.unlockMedal("the jump man");
+				}
+				
 				velocity.y -= baseJumpStrength * 1.3;
 				
 				if (jumpCounts > 0)
