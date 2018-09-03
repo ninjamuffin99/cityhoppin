@@ -52,8 +52,10 @@ class Player extends FlxSprite
 		width -= 2 - 8;
 		offset.x = 1;
 		
-		height -= 4 - 12;
-		offset.y = 20;
+		var hOff:Int = 15;
+		
+		height -= hOff;
+		offset.y = hOff + 26;
 		
 		// drag.y = 1600;
 		
