@@ -66,6 +66,13 @@ class PlayState extends FlxState
 		
 		FlxG.collide(_player, _map.foregroundTiles);
 		
+		if (FlxG.keys.justPressed.R)
+		{
+			//_player.setPosition(player_start.x, player_start.y);
+			_player.reset(player_start.x, player_start.y);
+			_timer = 0;
+		}
+		
 		// Time in milliseconds I think
 		_timer += FlxG.elapsed * 0.001;
 		
