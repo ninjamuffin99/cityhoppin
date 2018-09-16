@@ -6,6 +6,7 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
+import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 import flixel.system.replay.FlxReplay;
 import flixel.text.FlxText;
@@ -29,6 +30,8 @@ class PlayState extends FlxState
 	
 	private static var recording:Bool = false;
 	private static var replaying:Bool = false;
+	
+	private var endStuff:FlxGroup;
 	
 	override public function create():Void
 	{
@@ -101,6 +104,27 @@ class PlayState extends FlxState
 				
 		}
 		
+		endStuff = new FlxGroup();
+		
+		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		bg.alpha = 0.5;
+		bg.scrollFactor.set();
+		endStuff.add(bg);
+		
+		var txt:FlxText = new FlxText(0, 0, FlxG.width * 0.7, "gg wp \nmade by ninja_muffin99\nYou beat the game in ", 26);
+		txt.text += Math.floor(EndState.time / 60) + "mins " + EndState.time % 60 + " seconds";
+		txt.screenCenter();
+		txt.scrollFactor.set();
+		endStuff.add(txt);
+		
+		add(endStuff);
+		
+		if (replaying)
+		{
+			endStuff.visible = true;
+		}
+		else
+			endStuff.visible = false;
 		
 		super.create();
 	}
@@ -121,11 +145,10 @@ class PlayState extends FlxState
 			startRecording();
 		}
 		
-		if (FlxG.keys.justPressed.F)
+		if (FlxG.keys.justPressed.F && recording)
 		{
 			loadReplay();
 		}
-		
 		
 		
 		// Time in milliseconds I think

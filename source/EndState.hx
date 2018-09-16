@@ -20,15 +20,13 @@ class EndState extends FlxSubState
 
 	override public function create():Void 
 	{
-		FlxG.camera.fade(FlxColor.WHITE, 1, true);
-		
 		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		bg.alpha = 0.5;
 		add(bg);
 		
 		var txt:FlxText = new FlxText(0, 0, FlxG.width * 0.7, "gg wp \nmade by ninja_muffin99\nYou beat the game in ", 26);
 		txt.text += Math.floor(time / 60) + "mins " + time % 60 + " seconds";
 		txt.screenCenter();
-		txt.color = FlxColor.BLACK;
 		add(txt);
 		
 		super.create();

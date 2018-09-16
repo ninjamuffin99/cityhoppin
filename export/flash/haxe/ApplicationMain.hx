@@ -219,7 +219,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "307",
+			build: "315",
 			company: "HaxeFlixel",
 			file: "GMTKJam",
 			fps: 60,
