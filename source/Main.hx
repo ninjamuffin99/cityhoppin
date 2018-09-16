@@ -7,6 +7,8 @@ import com.newgrounds.components.*;
 
 class Main extends Sprite
 {
+	public static var fisrtRun:Bool = true;
+	
 	public function new()
 	{
 		super();

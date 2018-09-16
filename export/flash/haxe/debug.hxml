@@ -14,12 +14,11 @@
 -cp C:\HaxeToolkit\haxe\lib\openfl/3,6,1/extern
 -D native-trace
 -D openfl-next
+-D FLX_RECORD
 -D FLX_NO_FOCUS_LOST_SCREEN
 -D tools=2.9.1
--D FLX_NO_DEBUG
 -D flash-use-stage
 -D no-compilation
--D NAPE_RELEASE_BUILD
 -D openfl-flash
 -D as3_native
 -D fdb

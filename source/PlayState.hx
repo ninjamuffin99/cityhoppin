@@ -25,9 +25,17 @@ class PlayState extends FlxState
 	private var _timer:Float = 0;
 	private var _txtTimer:FlxText;
 	
+	private static var recording:Bool = false;
+	private static var replaying:Bool = false;
+	
 	override public function create():Void
 	{
-		FlxG.camera.fade(FlxColor.BLACK, 3, true);
+		if (Main.fisrtRun)
+		{
+			FlxG.camera.fade(FlxColor.BLACK, 3, true, function(){Main.fisrtRun = false;});
+			
+		}
+		
 		
 		_player = new Player();
 		add(_player);
@@ -50,7 +58,6 @@ class PlayState extends FlxState
 		
 		FlxG.sound.playMusic(AssetPaths.ambience__mp3, 2.4);
 		
-		
 		_txtTimer = new FlxText(20, 20, 0, "", 32);
 		_txtTimer.scrollFactor.set();
 		_txtTimer.visible = false;
@@ -64,13 +71,22 @@ class PlayState extends FlxState
 		
 		super.update(elapsed);
 		
+		if (!recording && !replaying)
+		{
+			startRecording();
+		}
+		
 		FlxG.collide(_player, _map.foregroundTiles);
 		
-		if (FlxG.keys.justPressed.R)
+		if (FlxG.keys.justPressed.R && recording)
 		{
 			//_player.setPosition(player_start.x, player_start.y);
+			startRecording();
+			
+			/*
 			_player.reset(player_start.x, player_start.y);
 			_timer = 0;
+			*/
 		}
 		
 		// Time in milliseconds I think
@@ -94,7 +110,23 @@ class PlayState extends FlxState
 				FlxG.switchState(new EndState()); 
 			});
 		}
+	}
+	
+	private function startRecording():Void
+	{
+		recording = true;
+		replaying = false;
+		
+		FlxG.vcr.startRecording(false);
+	}
+	
+	private function loadReplay():Void
+	{
+		replaying = true;
+		recording = false;
 		
 		
+		var save:String = FlxG.vcr.stopRecording(false);
+		FlxG.vcr.loadReplay(save, new PlayState(), ["ANY"], 0, startRecording);
 	}
 }

@@ -4,18 +4,16 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.FlxSubState;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-
-import com.newgrounds.*;
-import com.newgrounds.components.*;
 
 /**
  * ...
  * @author 
  */
-class EndState extends FlxState 
+class EndState extends FlxSubState 
 {
 	
 	public static var time:Float = 5000;
@@ -24,7 +22,7 @@ class EndState extends FlxState
 	{
 		FlxG.camera.fade(FlxColor.WHITE, 1, true);
 		
-		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height);
+		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 		
 		var txt:FlxText = new FlxText(0, 0, FlxG.width * 0.7, "gg wp \nmade by ninja_muffin99\nYou beat the game in ", 26);
