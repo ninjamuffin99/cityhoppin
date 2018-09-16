@@ -7,9 +7,11 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.math.FlxMath;
+import flixel.system.replay.FlxReplay;
 import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxColor;
+import openfl.utils.Object;
 
 import com.newgrounds.*;
 import com.newgrounds.components.*;
@@ -30,12 +32,6 @@ class PlayState extends FlxState
 	
 	override public function create():Void
 	{
-		if (Main.fisrtRun)
-		{
-			FlxG.camera.fade(FlxColor.BLACK, 3, true, function(){Main.fisrtRun = false;});
-			
-		}
-		
 		
 		_player = new Player();
 		add(_player);
@@ -63,12 +59,53 @@ class PlayState extends FlxState
 		_txtTimer.visible = false;
 		add(_txtTimer);
 		
+		
+		if (Main.fisrtRun)
+		{
+			FlxG.camera.fade(FlxColor.BLACK, 3, true, function(){Main.fisrtRun = false;});
+			
+			API.addEventListener(APIEvent.FILE_SAVED, function(e:APIEvent)
+			{
+				if (e.success)
+				{
+					FlxG.log.add("saving was successful!");
+					FlxG.log.add(e.data);
+				}
+				else
+					FlxG.log.error("Error creating save: " + e.error);
+			});
+			
+			API.addEventListener(APIEvent.FILE_REQUESTED, function(e:APIEvent)
+			{
+				if (e.success)
+				{
+					FlxG.log.add("file requesting was successful!");
+					FlxG.log.add(e.data);
+				}
+				else
+					FlxG.log.error("error loading file: " + e.error);
+			});
+			
+			API.addEventListener(APIEvent.FILE_LOADED, function(e:APIEvent)
+			{
+				if (e.success)
+				{
+					FlxG.log.add("file loading was successful!");
+					loadReplay(e.data.data);
+					FlxG.log.add(e.data);
+				}
+				else
+					FlxG.log.error("error requesting file: " + e.error);
+			});
+			
+				
+		}
+		
+		
 		super.create();
 	}
 	override public function update(elapsed:Float):Void
 	{
-		
-		
 		super.update(elapsed);
 		
 		if (!recording && !replaying)
@@ -80,19 +117,28 @@ class PlayState extends FlxState
 		
 		if (FlxG.keys.justPressed.R && recording)
 		{
-			//_player.setPosition(player_start.x, player_start.y);
+			FlxG.vcr.stopRecording(false);
 			startRecording();
-			
-			/*
-			_player.reset(player_start.x, player_start.y);
-			_timer = 0;
-			*/
 		}
+		
+		if (FlxG.keys.justPressed.F)
+		{
+			loadReplay();
+		}
+		
+		
 		
 		// Time in milliseconds I think
 		_timer += FlxG.elapsed * 0.001;
 		
 		_txtTimer.text = FlxMath.roundDecimal(_timer * 1000, 2) + "s";
+		
+		
+		if (replaying)
+		{
+			_txtTimer.visible = true;
+		}
+		
 		
 		if (FlxG.keys.justPressed.T)
 		{
@@ -106,8 +152,12 @@ class PlayState extends FlxState
 				API.unlockMedal("real gamer");
 				API.postScore("Fastest Completion", Std.int(_timer * 1000 * 1000));
 				API.postScore("Times beaten", 1);
+				
+				
+				loadReplay();
+				
 				EndState.time = FlxMath.roundDecimal(_timer * 1000, 2);
-				FlxG.switchState(new EndState()); 
+				// FlxG.switchState(new EndState()); 
 			});
 		}
 	}
@@ -120,13 +170,27 @@ class PlayState extends FlxState
 		FlxG.vcr.startRecording(false);
 	}
 	
-	private function loadReplay():Void
+	private function loadReplay(?dataOverride:String):Void
 	{
 		replaying = true;
 		recording = false;
 		
+		var save = FlxG.vcr.stopRecording(false);
 		
-		var save:String = FlxG.vcr.stopRecording(false);
+		
+		if (dataOverride != null)
+		{
+			save = dataOverride;
+		}
+		else
+		{
+			var saveFile = API.createSaveFile("Replays");
+			saveFile.data = save;
+			saveFile.name = "Test " + FlxG.random.int(0, 100);
+			saveFile.save();
+			
+		}
+		
 		FlxG.vcr.loadReplay(save, new PlayState(), ["ANY"], 0, startRecording);
 	}
 }
