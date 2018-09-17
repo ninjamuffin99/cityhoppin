@@ -6,12 +6,15 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
+import flixel.addons.util.PNGEncoder;
 import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 import flixel.system.replay.FlxReplay;
 import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxColor;
+import openfl.display.BitmapData;
+import openfl.utils.ByteArray;
 import openfl.utils.Object;
 
 import com.newgrounds.*;
@@ -32,6 +35,7 @@ class PlayState extends FlxState
 	private static var replaying:Bool = false;
 	
 	private var endStuff:FlxGroup;
+	private var flashAd:FlashAd;
 	
 	override public function create():Void
 	{
@@ -61,6 +65,8 @@ class PlayState extends FlxState
 		_txtTimer.scrollFactor.set();
 		_txtTimer.visible = false;
 		add(_txtTimer);
+		
+		
 		
 		
 		if (Main.fisrtRun)
@@ -103,28 +109,17 @@ class PlayState extends FlxState
 			
 				
 		}
-		
-		endStuff = new FlxGroup();
-		
-		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		bg.alpha = 0.5;
-		bg.scrollFactor.set();
-		endStuff.add(bg);
-		
-		var txt:FlxText = new FlxText(0, 0, FlxG.width * 0.7, "gg wp \nmade by ninja_muffin99\nYou beat the game in ", 26);
-		txt.text += Math.floor(EndState.time / 60) + "mins " + EndState.time % 60 + " seconds";
-		txt.screenCenter();
-		txt.scrollFactor.set();
-		endStuff.add(txt);
-		
-		add(endStuff);
-		
+
 		if (replaying)
 		{
-			endStuff.visible = true;
+			persistentDraw = persistentUpdate = true;
+			openSubState(new EndState());
 		}
 		else
-			endStuff.visible = false;
+		{
+			
+			// endStuff.visible = false;
+		}
 		
 		super.create();
 	}
@@ -160,6 +155,12 @@ class PlayState extends FlxState
 		if (replaying)
 		{
 			_txtTimer.visible = true;
+			
+			if (FlxG.keys.pressed.SHIFT)
+			{
+				_txtTimer.visible = false;
+			}
+			
 		}
 		
 		
@@ -178,8 +179,6 @@ class PlayState extends FlxState
 				
 				
 				loadReplay();
-				
-				EndState.time = FlxMath.roundDecimal(_timer * 1000, 2);
 				// FlxG.switchState(new EndState()); 
 			});
 		}
@@ -193,15 +192,17 @@ class PlayState extends FlxState
 		FlxG.vcr.startRecording(false);
 	}
 	
-	private function loadReplay(?dataOverride:String):Void
+	private function loadReplay(dataOverride:String = ""):Void
 	{
+		EndState.time = FlxMath.roundDecimal(_timer * 1000, 2);
+		
 		replaying = true;
 		recording = false;
 		
 		var save = FlxG.vcr.stopRecording(false);
 		
 		
-		if (dataOverride != null)
+		if (dataOverride.length > 0)
 		{
 			save = dataOverride;
 		}
@@ -210,10 +211,12 @@ class PlayState extends FlxState
 			var saveFile = API.createSaveFile("Replays");
 			saveFile.data = save;
 			saveFile.name = "Test " + FlxG.random.int(0, 100);
+			saveFile.icon = _player.pixels;
+			saveFile.description = Math.floor(EndState.time / 60) + "mins " + EndState.time % 60 + " seconds";
 			saveFile.save();
 			
 		}
 		
-		FlxG.vcr.loadReplay(save, new PlayState(), ["ANY"], 0, startRecording);
+		FlxG.vcr.loadReplay(save, new PlayState(), ["ENTER"], 0, startRecording);
 	}
 }
