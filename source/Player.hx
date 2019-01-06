@@ -78,31 +78,33 @@ class Player extends FlxSprite
 		var _left:Bool = false;
 		var _right:Bool = false;
 		
-		_up = FlxG.keys.anyPressed([UP, W, SPACE]);
-		_down = FlxG.keys.anyPressed([DOWN, S]);
+		// _up = FlxG.keys.anyPressed([UP, W, SPACE]);
+		// _down = FlxG.keys.anyPressed([DOWN, S]);
 		_left = FlxG.keys.anyPressed([LEFT, A]);
 		_right = FlxG.keys.anyPressed([RIGHT, D]);
+		_up = _left || _right || !isTouching(FlxObject.FLOOR);
 		
 		var _upR:Bool = false;
 		var _downR:Bool = false;
 		var _leftR:Bool = false;
 		var _rightR:Bool = false;
 		
-		_upR = FlxG.keys.anyJustReleased([UP, W, SPACE]);
-		_downR = FlxG.keys.anyJustReleased([DOWN, S]);
+		// _upR = FlxG.keys.anyJustReleased([UP, W, SPACE]);
+		// _downR = FlxG.keys.anyJustReleased([DOWN, S]);
 		_leftR = FlxG.keys.anyJustReleased([LEFT, A]);
 		_rightR = FlxG.keys.anyJustReleased([RIGHT, D]);
-		
+		_upR = _leftR || _rightR;
 		
 		var _upP:Bool = false;
 		var _downP:Bool = false;
 		var _leftP:Bool = false;
 		var _rightP:Bool = false;
 		
-		_upP = FlxG.keys.anyJustPressed([UP, W, SPACE]);
-		_downP = FlxG.keys.anyJustPressed([DOWN, S]);
+		// _upP = FlxG.keys.anyJustPressed([UP, W, SPACE]);
+		// _downP = FlxG.keys.anyJustPressed([DOWN, S]);
 		_leftP = FlxG.keys.anyJustPressed([LEFT, A]);
 		_rightP = FlxG.keys.anyJustPressed([RIGHT, D]);
+		_upP = _leftP || _rightP;
 		
 		
 		if ( velocity.x > 0)
@@ -291,7 +293,8 @@ class Player extends FlxSprite
 				_left = _right = false;
 			}
 			
-			var accX:Float = 1.4;
+			// var accX:Float = 1.4;
+			var accX:Float = 2;
 			
 			if (jumpedStraightUp || sideBoosting)
 				accX += 2.9;
