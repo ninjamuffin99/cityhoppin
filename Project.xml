@@ -62,8 +62,7 @@
 	<haxedef name="FLX_NO_TOUCH" if="desktop" />
 	<!--<haxedef name="FLX_NO_GAMEPAD" />-->
 	
-	<haxedef name="two_button_mode"/><!-- for testing on desktop -->
-	<haxedef name="two_button_mode" if="FLX_NO_KEYBOARD"/>
+	<!-- <haxedef name="two_button_mode"/> -->
 
 	<!--Disable the Flixel core sound tray-->
 	<!--<haxedef name="FLX_NO_SOUND_TRAY" />-->

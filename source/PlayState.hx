@@ -17,6 +17,8 @@ import openfl.display.BitmapData;
 import openfl.utils.ByteArray;
 import openfl.utils.Object;
 
+import player.Player;
+
 // import com.newgrounds.*;
 // import com.newgrounds.components.*;
 
@@ -40,8 +42,7 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		
-		_player = new Player();
-		add(_player);
+		add(_player = Player.createPlayer());
 		
 		_map = new TiledLevel(AssetPaths.levelGood__tmx, this);
 		add(_map.backgroundLayer);

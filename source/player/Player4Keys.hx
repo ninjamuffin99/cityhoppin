@@ -1,164 +1,44 @@
-package;
+package player;
 
-import flixel.FlxG;
-import flixel.FlxObject;
-import flixel.FlxSprite;
 import flixel.math.FlxMath;
-import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.FlxObject;
+import flixel.FlxG;
 
-import com.newgrounds.*;
-import com.newgrounds.components.*;
-
-
-/**
- * ...
- * @author 
- */
-class Player extends FlxSprite 
+class Player4Keys extends Player
 {
-
-	public var speed:Float = 200;
-	
-	private var jumpedStraightUp:Bool = true;
-	private var justJumped:Bool = false;
-	
-	private var baseJumpStrength:Float = 100;
-	private var jumpBoost:Int = 0;
-	private var apexReached:Bool = false;
-	private var jumpingCooldown:Float = 1;
-	private var jumpCounts:Int = 0;
-	private var canJump = false;
-	
-	private var sideBoost:Bool = false;
-	private var sideBoosting:Bool = false;
-	private var canSideBoost:Bool = false;
-	
-	private var jumpsTotal:Int = 0;
-	
-	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
-	{
-		super(X, Y, SimpleGraphic);
-		
-		//makeGraphic(32, 48);
-		loadGraphic(AssetPaths.player__png, true , 40, 60);
-		scale.set(2, 2);
-		animation.add("stand", [0]);
-		animation.add("jump", [1]);
-		animation.add("dash", [3]);
-		
-		setFacingFlip(FlxObject.LEFT, false, false);
-		setFacingFlip(FlxObject.RIGHT, true, false);
-		
-		width -= 2 - 8;
-		offset.x = 1;
-		
-		var hOff:Int = 15;
-		
-		height -= hOff;
-		offset.y = hOff + 26;
-		
-		// drag.y = 1600;
-		
-		
-		acceleration.y = 1500;
-		
-	}
-	
-	override public function update(elapsed:Float):Void 
-	{
-		
-		movement();
-		super.update(elapsed);
-	}
-	
-	private function movement():Void
+	override function movement():Void
 	{
 		var _up:Bool = false;
 		var _down:Bool = false;
 		var _left:Bool = false;
 		var _right:Bool = false;
 		
-		var mouseOnly = getIsMouseOnly();
-		if (mouseOnly)
-		{
-			if(FlxG.mouse.pressed)
-			{
-				_left = isTapLeft();
-				_right = !_left;
-			}
-			_up = _left || _right || !isTouching(FlxObject.FLOOR);
-		}
-		#if !FLX_NO_KEYBOARD
-		else
-		{
-			_left = FlxG.keys.anyPressed([LEFT, A]);
-			_right = FlxG.keys.anyPressed([RIGHT, D]);
-			#if two_button_mode
-				_up = _left || _right || !isTouching(FlxObject.FLOOR);
-			#else
-				_up = FlxG.keys.anyPressed([UP, W, SPACE]);
-				_down = FlxG.keys.anyPressed([DOWN, S]);
-			#end
-		}
-		#end
+		_up = FlxG.keys.anyPressed([UP, W, SPACE]);
+		_down = FlxG.keys.anyPressed([DOWN, S]);
+		_left = FlxG.keys.anyPressed([LEFT, A]);
+		_right = FlxG.keys.anyPressed([RIGHT, D]);
 		
 		var _upR:Bool = false;
 		var _downR:Bool = false;
 		var _leftR:Bool = false;
 		var _rightR:Bool = false;
 		
-		if (mouseOnly)
-		{
-			if(FlxG.mouse.justReleased)
-			{
-				_leftR = isTapLeft();
-				_rightR = !_left;
-			}
-			_upR = _leftR || _rightR;
-		}
-		#if !FLX_NO_KEYBOARD
-		else
-		{
-			_leftR = FlxG.keys.anyJustReleased([LEFT, A]);
-			_rightR = FlxG.keys.anyJustReleased([RIGHT, D]);
-			
-			#if two_button_mode
-				_upR = _leftR || _rightR;
-			#else
-				_upR = FlxG.keys.anyJustReleased([UP, W, SPACE]);
-				_downR = FlxG.keys.anyJustReleased([DOWN, S]);
-			#end
-		}
-		#end
+		_upR = FlxG.keys.anyJustReleased([UP, W, SPACE]);
+		_downR = FlxG.keys.anyJustReleased([DOWN, S]);
+		_leftR = FlxG.keys.anyJustReleased([LEFT, A]);
+		_rightR = FlxG.keys.anyJustReleased([RIGHT, D]);
+		
 		
 		var _upP:Bool = false;
 		var _downP:Bool = false;
 		var _leftP:Bool = false;
 		var _rightP:Bool = false;
 		
-		if (mouseOnly)
-		{
-			if(FlxG.mouse.justPressed)
-			{
-				_leftP = isTapLeft();
-				_rightP = !_leftP;
-			}
-			_upP = _leftP || _rightP;
-		}
-		#if !FLX_NO_KEYBOARD
-		else
-		{
-			_leftP = FlxG.keys.anyJustPressed([LEFT, A]);
-			_rightP = FlxG.keys.anyJustPressed([RIGHT, D]);
-			
-			#if two_button_mode
-				_upP = _leftP || _rightP;
-			#else
-				_upP = FlxG.keys.anyJustPressed([UP, W, SPACE]);
-				_downP = FlxG.keys.anyJustPressed([DOWN, S]);
-			#end
-		}
-		#end
+		_upP = FlxG.keys.anyJustPressed([UP, W, SPACE]);
+		_downP = FlxG.keys.anyJustPressed([DOWN, S]);
+		_leftP = FlxG.keys.anyJustPressed([LEFT, A]);
+		_rightP = FlxG.keys.anyJustPressed([RIGHT, D]);
+		
 		
 		if ( velocity.x > 0)
 		{
@@ -197,7 +77,7 @@ class Player extends FlxSprite
 				
 				if (jumpsTotal == 7)
 				{
-					//API.unlockMedal("the jump man");
+					// API.unlockMedal("the jump man");
 				}
 				
 				velocity.y -= baseJumpStrength * 1.3;
@@ -346,8 +226,7 @@ class Player extends FlxSprite
 				_left = _right = false;
 			}
 			
-			// var accX:Float = 1.4;
-			var accX:Float = 2;
+			var accX:Float = 1.4;
 			
 			if (jumpedStraightUp || sideBoosting)
 				accX += 2.9;
@@ -397,33 +276,5 @@ class Player extends FlxSprite
 			
 			drag.x = 0;
 		}
-		
-
-	}
-	
-	inline static public function isTapLeft():Bool
-	{
-		return FlxG.mouse.screenX <= FlxG.width / 2;
-	}
-	
-	static public function getIsMouseOnly():Bool
-	{
-		#if (FLX_NO_KEYBOARD)
-			return true;
-		#elseif html5
-			var browserAgent:String = js.Browser.navigator.userAgent.toLowerCase();
-			if (browserAgent != null) 
-			{
-				return browserAgent.indexOf("android"   ) >= 0
-					|| browserAgent.indexOf("blackBerry") >= 0
-					|| browserAgent.indexOf("iphone"    ) >= 0
-					|| browserAgent.indexOf("ipad"      ) >= 0
-					|| browserAgent.indexOf("ipod"      ) >= 0
-					|| browserAgent.indexOf("opera mini") >= 0
-					|| browserAgent.indexOf("iemobile"  ) >= 0;
-			}
-		#end
-		
-		return false;
 	}
 }
