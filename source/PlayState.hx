@@ -19,9 +19,10 @@ import openfl.utils.Object;
 
 import player.Player;
 
-// import com.newgrounds.*;
-// import com.newgrounds.components.*;
-
+#if use_newgrounds_api
+import com.newgrounds.*;
+import com.newgrounds.components.*;
+#end
 class PlayState extends FlxState
 {
 	private var _player:Player;
@@ -37,7 +38,9 @@ class PlayState extends FlxState
 	private static var replaying:Bool = false;
 	
 	private var endStuff:FlxGroup;
-	// private var flashAd:FlashAd;
+	#if use_newgrounds_api
+	private var flashAd:FlashAd;
+	#end
 	
 	override public function create():Void
 	{
@@ -73,41 +76,41 @@ class PlayState extends FlxState
 		if (Main.fisrtRun)
 		{
 			FlxG.camera.fade(FlxColor.BLACK, 3, true, function(){Main.fisrtRun = false;});
+			#if use_newgrounds_api
+			API.addEventListener(APIEvent.FILE_SAVED, function(e:APIEvent)
+			{
+				if (e.success)
+				{
+					FlxG.log.add("saving was successful!");
+					FlxG.log.add(e.data);
+				}
+				else
+					FlxG.log.error("Error creating save: " + e.error);
+			});
 			
-			// API.addEventListener(APIEvent.FILE_SAVED, function(e:APIEvent)
-			// {
-			// 	if (e.success)
-			// 	{
-			// 		FlxG.log.add("saving was successful!");
-			// 		FlxG.log.add(e.data);
-			// 	}
-			// 	else
-			// 		FlxG.log.error("Error creating save: " + e.error);
-			// });
+			API.addEventListener(APIEvent.FILE_REQUESTED, function(e:APIEvent)
+			{
+				if (e.success)
+				{
+					FlxG.log.add("file requesting was successful!");
+					FlxG.log.add(e.data);
+				}
+				else
+					FlxG.log.error("error loading file: " + e.error);
+			});
 			
-			// API.addEventListener(APIEvent.FILE_REQUESTED, function(e:APIEvent)
-			// {
-			// 	if (e.success)
-			// 	{
-			// 		FlxG.log.add("file requesting was successful!");
-			// 		FlxG.log.add(e.data);
-			// 	}
-			// 	else
-			// 		FlxG.log.error("error loading file: " + e.error);
-			// });
-			
-			// API.addEventListener(APIEvent.FILE_LOADED, function(e:APIEvent)
-			// {
-			// 	if (e.success)
-			// 	{
-			// 		FlxG.log.add("file loading was successful!");
-			// 		loadReplay(e.data.data);
-			// 		FlxG.log.add(e.data);
-			// 	}
-			// 	else
-			// 		FlxG.log.error("error requesting file: " + e.error);
-			// });
-			
+			API.addEventListener(APIEvent.FILE_LOADED, function(e:APIEvent)
+			{
+				if (e.success)
+				{
+					FlxG.log.add("file loading was successful!");
+					loadReplay(e.data.data);
+					FlxG.log.add(e.data);
+				}
+				else
+					FlxG.log.error("error requesting file: " + e.error);
+			});
+			#end
 				
 		}
 
@@ -212,12 +215,14 @@ class PlayState extends FlxState
 		}
 		else
 		{
-			// var saveFile = API.createSaveFile("Replays");
-			// saveFile.data = save;
-			// saveFile.name = "Test " + FlxG.random.int(0, 100);
-			// saveFile.icon = _player.pixels;
-			// saveFile.description = Math.floor(EndState.time / 60) + "mins " + EndState.time % 60 + " seconds";
-			// saveFile.save();
+			#if use_newgrounds_api
+			var saveFile = API.createSaveFile("Replays");
+			saveFile.data = save;
+			saveFile.name = "Test " + FlxG.random.int(0, 100);
+			saveFile.icon = _player.pixels;
+			saveFile.description = Math.floor(EndState.time / 60) + "mins " + EndState.time % 60 + " seconds";
+			saveFile.save();
+			#end
 			
 		}
 		

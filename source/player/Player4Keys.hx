@@ -75,10 +75,12 @@ class Player4Keys extends Player
 			{
 				jumpsTotal += 1;
 				
+				#if use_newgrounds_api
 				if (jumpsTotal == 7)
 				{
-					// API.unlockMedal("the jump man");
+					API.unlockMedal("the jump man");
 				}
+				#end
 				
 				velocity.y -= baseJumpStrength * 1.3;
 				
