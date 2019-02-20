@@ -69,11 +69,10 @@ class EndState extends FlxSubState
 		super.update(elapsed);
 	}
 	
+	#if use_newgrounds_api
 	override public function close():Void 
 	{
-		#if use_newgrounds_api
 		FlxG.stage.removeChild(flashAd);
-		#end
 		
 		super.close();
 	}
@@ -81,12 +80,10 @@ class EndState extends FlxSubState
 	
 	override public function destroy():Void 
 	{
-		#if use_newgrounds_api
 		FlxG.stage.removeChild(flashAd);
-		#end
 		
 		super.destroy();
 	}
-	
+	#end
 	
 }
