@@ -48,6 +48,7 @@
 
 	<!--Enable the Flixel core recording system-->
 	<haxedef name="FLX_RECORD" />
+	
 
 	<!--Disable the right and middle mouse buttons-->
 	<!--<haxedef name="FLX_NO_MOUSE_ADVANCED" />-->
@@ -60,6 +61,9 @@
 	<haxedef name="FLX_NO_KEYBOARD" if="mobile" />
 	<haxedef name="FLX_NO_TOUCH" if="desktop" />
 	<!--<haxedef name="FLX_NO_GAMEPAD" />-->
+	
+	<haxedef name="two_button_mode"/><!-- for testing on desktop -->
+	<haxedef name="two_button_mode" if="FLX_NO_KEYBOARD"/>
 
 	<!--Disable the Flixel core sound tray-->
 	<!--<haxedef name="FLX_NO_SOUND_TRAY" />-->

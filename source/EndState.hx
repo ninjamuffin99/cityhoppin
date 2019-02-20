@@ -10,8 +10,8 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 
-import com.newgrounds.*;
-import com.newgrounds.components.*;
+// import com.newgrounds.*;
+// import com.newgrounds.components.*;
 
 /**
  * ...
@@ -24,7 +24,7 @@ class EndState extends FlxSubState
 	
 	private var bg:FlxSprite;
 	private var txt:FlxText;
-	private var flashAd:FlashAd;
+	// private var flashAd:FlashAd;
 
 	override public function create():Void 
 	{
@@ -39,16 +39,16 @@ class EndState extends FlxSubState
 		txt.scrollFactor.set();
 		add(txt);
 		
-		flashAd = new FlashAd();
-		flashAd.x = FlxG.width - flashAd.width - 30;
-		flashAd.y = 40;
-		FlxG.stage.addChild(flashAd);
+		// flashAd = new FlashAd();
+		// flashAd.x = FlxG.width - flashAd.width - 30;
+		// flashAd.y = 40;
+		// FlxG.stage.addChild(flashAd);
 		
 		var visiButton:FlxButton = new FlxButton(40, FlxG.height - 50, "Toggle Overlay", function()
 		{
 			txt.visible = !txt.visible;
 			bg.visible = txt.visible;
-			flashAd.visible = txt.visible;
+			// flashAd.visible = txt.visible;
 		});
 			
 		add(visiButton);
@@ -63,7 +63,7 @@ class EndState extends FlxSubState
 	
 	override public function close():Void 
 	{
-		FlxG.stage.removeChild(flashAd);
+		// FlxG.stage.removeChild(flashAd);
 		
 		super.close();
 	}
@@ -71,7 +71,7 @@ class EndState extends FlxSubState
 	
 	override public function destroy():Void 
 	{
-		FlxG.stage.removeChild(flashAd);
+		// FlxG.stage.removeChild(flashAd);
 		
 		super.destroy();
 	}

@@ -17,8 +17,8 @@ import openfl.display.BitmapData;
 import openfl.utils.ByteArray;
 import openfl.utils.Object;
 
-import com.newgrounds.*;
-import com.newgrounds.components.*;
+// import com.newgrounds.*;
+// import com.newgrounds.components.*;
 
 class PlayState extends FlxState
 {
@@ -35,7 +35,7 @@ class PlayState extends FlxState
 	private static var replaying:Bool = false;
 	
 	private var endStuff:FlxGroup;
-	private var flashAd:FlashAd;
+	// private var flashAd:FlashAd;
 	
 	override public function create():Void
 	{
@@ -73,39 +73,39 @@ class PlayState extends FlxState
 		{
 			FlxG.camera.fade(FlxColor.BLACK, 3, true, function(){Main.fisrtRun = false;});
 			
-			API.addEventListener(APIEvent.FILE_SAVED, function(e:APIEvent)
-			{
-				if (e.success)
-				{
-					FlxG.log.add("saving was successful!");
-					FlxG.log.add(e.data);
-				}
-				else
-					FlxG.log.error("Error creating save: " + e.error);
-			});
+			// API.addEventListener(APIEvent.FILE_SAVED, function(e:APIEvent)
+			// {
+			// 	if (e.success)
+			// 	{
+			// 		FlxG.log.add("saving was successful!");
+			// 		FlxG.log.add(e.data);
+			// 	}
+			// 	else
+			// 		FlxG.log.error("Error creating save: " + e.error);
+			// });
 			
-			API.addEventListener(APIEvent.FILE_REQUESTED, function(e:APIEvent)
-			{
-				if (e.success)
-				{
-					FlxG.log.add("file requesting was successful!");
-					FlxG.log.add(e.data);
-				}
-				else
-					FlxG.log.error("error loading file: " + e.error);
-			});
+			// API.addEventListener(APIEvent.FILE_REQUESTED, function(e:APIEvent)
+			// {
+			// 	if (e.success)
+			// 	{
+			// 		FlxG.log.add("file requesting was successful!");
+			// 		FlxG.log.add(e.data);
+			// 	}
+			// 	else
+			// 		FlxG.log.error("error loading file: " + e.error);
+			// });
 			
-			API.addEventListener(APIEvent.FILE_LOADED, function(e:APIEvent)
-			{
-				if (e.success)
-				{
-					FlxG.log.add("file loading was successful!");
-					loadReplay(e.data.data);
-					FlxG.log.add(e.data);
-				}
-				else
-					FlxG.log.error("error requesting file: " + e.error);
-			});
+			// API.addEventListener(APIEvent.FILE_LOADED, function(e:APIEvent)
+			// {
+			// 	if (e.success)
+			// 	{
+			// 		FlxG.log.add("file loading was successful!");
+			// 		loadReplay(e.data.data);
+			// 		FlxG.log.add(e.data);
+			// 	}
+			// 	else
+			// 		FlxG.log.error("error requesting file: " + e.error);
+			// });
 			
 				
 		}
@@ -134,6 +134,7 @@ class PlayState extends FlxState
 		
 		FlxG.collide(_player, _map.foregroundTiles);
 		
+		#if !FLX_NO_KEYBOARD
 		if (FlxG.keys.justPressed.R && recording)
 		{
 			FlxG.vcr.stopRecording(false);
@@ -144,7 +145,7 @@ class PlayState extends FlxState
 		{
 			loadReplay();
 		}
-		
+		#end
 		
 		// Time in milliseconds I think
 		_timer += FlxG.elapsed * 0.001;
@@ -156,26 +157,28 @@ class PlayState extends FlxState
 		{
 			_txtTimer.visible = true;
 			
+			#if !FLX_NO_KEYBOARD
 			if (FlxG.keys.pressed.SHIFT)
 			{
 				_txtTimer.visible = false;
 			}
-			
+			#end
 		}
 		
-		
+		#if !FLX_NO_KEYBOARD
 		if (FlxG.keys.justPressed.T)
 		{
 			_txtTimer.visible = !_txtTimer.visible;
 		}
+		#end
 		
 		if (_player.x < 0 - _player.width)
 		{
 			FlxG.camera.fade(FlxColor.WHITE, 0.5, false, function()
 			{
-				API.unlockMedal("real gamer");
-				API.postScore("Fastest Completion", Std.int(_timer * 1000 * 1000));
-				API.postScore("Times beaten", 1);
+				// API.unlockMedal("real gamer");
+				// API.postScore("Fastest Completion", Std.int(_timer * 1000 * 1000));
+				// API.postScore("Times beaten", 1);
 				
 				
 				loadReplay();
@@ -208,12 +211,12 @@ class PlayState extends FlxState
 		}
 		else
 		{
-			var saveFile = API.createSaveFile("Replays");
-			saveFile.data = save;
-			saveFile.name = "Test " + FlxG.random.int(0, 100);
-			saveFile.icon = _player.pixels;
-			saveFile.description = Math.floor(EndState.time / 60) + "mins " + EndState.time % 60 + " seconds";
-			saveFile.save();
+			// var saveFile = API.createSaveFile("Replays");
+			// saveFile.data = save;
+			// saveFile.name = "Test " + FlxG.random.int(0, 100);
+			// saveFile.icon = _player.pixels;
+			// saveFile.description = Math.floor(EndState.time / 60) + "mins " + EndState.time % 60 + " seconds";
+			// saveFile.save();
 			
 		}
 		
