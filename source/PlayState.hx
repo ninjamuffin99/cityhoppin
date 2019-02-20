@@ -138,7 +138,7 @@ class PlayState extends FlxState
 		
 		FlxG.collide(_player, _map.foregroundTiles);
 		
-		#if !FLX_NO_KEYBOARD
+		#if FLX_KEYBOARD
 		if (FlxG.keys.justPressed.R && recording)
 		{
 			FlxG.vcr.stopRecording(false);
@@ -161,7 +161,7 @@ class PlayState extends FlxState
 		{
 			_txtTimer.visible = true;
 			
-			#if !FLX_NO_KEYBOARD
+			#if FLX_KEYBOARD
 			if (FlxG.keys.pressed.SHIFT)
 			{
 				_txtTimer.visible = false;
@@ -169,7 +169,7 @@ class PlayState extends FlxState
 			#end
 		}
 		
-		#if !FLX_NO_KEYBOARD
+		#if FLX_KEYBOARD
 		if (FlxG.keys.justPressed.T)
 		{
 			_txtTimer.visible = !_txtTimer.visible;
@@ -180,10 +180,11 @@ class PlayState extends FlxState
 		{
 			FlxG.camera.fade(FlxColor.WHITE, 0.5, false, function()
 			{
-				// API.unlockMedal("real gamer");
-				// API.postScore("Fastest Completion", Std.int(_timer * 1000 * 1000));
-				// API.postScore("Times beaten", 1);
-				
+				#if use_newgrounds_api
+				API.unlockMedal("real gamer");
+				API.postScore("Fastest Completion", Std.int(_timer * 1000 * 1000));
+				API.postScore("Times beaten", 1);
+				#end
 				
 				loadReplay();
 				// FlxG.switchState(new EndState()); 
