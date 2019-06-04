@@ -17,9 +17,12 @@ import openfl.display.BitmapData;
 import openfl.utils.ByteArray;
 import openfl.utils.Object;
 
+import player.Player;
+
+#if use_newgrounds_api
 import com.newgrounds.*;
 import com.newgrounds.components.*;
-
+#end
 class PlayState extends FlxState
 {
 	private var _player:Player;
@@ -35,13 +38,14 @@ class PlayState extends FlxState
 	private static var replaying:Bool = false;
 	
 	private var endStuff:FlxGroup;
+	#if use_newgrounds_api
 	private var flashAd:FlashAd;
+	#end
 	
 	override public function create():Void
 	{
 		
-		_player = new Player();
-		add(_player);
+		add(_player = Player.createPlayer());
 		
 		_map = new TiledLevel(AssetPaths.levelGood__tmx, this);
 		add(_map.backgroundLayer);
@@ -72,7 +76,7 @@ class PlayState extends FlxState
 		if (Main.fisrtRun)
 		{
 			FlxG.camera.fade(FlxColor.BLACK, 3, true, function(){Main.fisrtRun = false;});
-			
+			#if use_newgrounds_api
 			API.addEventListener(APIEvent.FILE_SAVED, function(e:APIEvent)
 			{
 				if (e.success)
@@ -106,7 +110,7 @@ class PlayState extends FlxState
 				else
 					FlxG.log.error("error requesting file: " + e.error);
 			});
-			
+			#end
 				
 		}
 
@@ -134,6 +138,7 @@ class PlayState extends FlxState
 		
 		FlxG.collide(_player, _map.foregroundTiles);
 		
+		#if FLX_KEYBOARD
 		if (FlxG.keys.justPressed.R && recording)
 		{
 			FlxG.vcr.stopRecording(false);
@@ -144,7 +149,7 @@ class PlayState extends FlxState
 		{
 			loadReplay();
 		}
-		
+		#end
 		
 		// Time in milliseconds I think
 		_timer += FlxG.elapsed * 0.001;
@@ -156,27 +161,30 @@ class PlayState extends FlxState
 		{
 			_txtTimer.visible = true;
 			
+			#if FLX_KEYBOARD
 			if (FlxG.keys.pressed.SHIFT)
 			{
 				_txtTimer.visible = false;
 			}
-			
+			#end
 		}
 		
-		
+		#if FLX_KEYBOARD
 		if (FlxG.keys.justPressed.T)
 		{
 			_txtTimer.visible = !_txtTimer.visible;
 		}
+		#end
 		
 		if (_player.x < 0 - _player.width)
 		{
 			FlxG.camera.fade(FlxColor.WHITE, 0.5, false, function()
 			{
+				#if use_newgrounds_api
 				API.unlockMedal("real gamer");
 				API.postScore("Fastest Completion", Std.int(_timer * 1000 * 1000));
 				API.postScore("Times beaten", 1);
-				
+				#end
 				
 				loadReplay();
 				// FlxG.switchState(new EndState()); 
@@ -208,12 +216,14 @@ class PlayState extends FlxState
 		}
 		else
 		{
+			#if use_newgrounds_api
 			var saveFile = API.createSaveFile("Replays");
 			saveFile.data = save;
 			saveFile.name = "Test " + FlxG.random.int(0, 100);
 			saveFile.icon = _player.pixels;
 			saveFile.description = Math.floor(EndState.time / 60) + "mins " + EndState.time % 60 + " seconds";
 			saveFile.save();
+			#end
 			
 		}
 		
