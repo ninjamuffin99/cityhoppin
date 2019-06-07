@@ -15,6 +15,7 @@
 -cp source
 -cp C:/HaxeToolkit/haxe/lib/openfl/8,9,1/externs/flash
 -D native-trace
+-D use_newgrounds_api
 -D FLX_RECORD
 -D FLX_NO_FOCUS_LOST_SCREEN
 -D tools=7.5.0
