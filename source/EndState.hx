@@ -7,6 +7,8 @@ import flixel.FlxState;
 import flixel.FlxSubState;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 
@@ -21,9 +23,6 @@ class EndState extends FlxSubState
 	
 	private var bg:FlxSprite;
 	private var txt:FlxText;
-	#if use_newgrounds_api
-	private var flashAd:FlashAd;
-	#end
 	
 	override public function create():Void 
 	{
@@ -37,6 +36,8 @@ class EndState extends FlxSubState
 		txt.text += "\n\nPress Shift to toggle this overlay";
 		txt.scrollFactor.set();
 		add(txt);
+		
+		FlxTween.tween(txt, {x: txt.x + 10}, 1, {type:FlxTweenType.PINGPONG, ease:FlxEase.quadInOut});
 		
 		var visiButton:FlxButton = new FlxButton(40, FlxG.height - 50, "Toggle Overlay", function()
 		{
