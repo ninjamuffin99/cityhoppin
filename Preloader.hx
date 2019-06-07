@@ -2,9 +2,6 @@ package;
 
 import flixel.system.FlxBasePreloader;
 
-import com.newgrounds.*;
-import com.newgrounds.components.*;
-
 /**
  * ...
  * @author 
@@ -20,9 +17,6 @@ class Preloader extends FlxBasePreloader
 	
 	override function create():Void 
 	{
-		
-		
-		
 		super.create();
 	}
 	

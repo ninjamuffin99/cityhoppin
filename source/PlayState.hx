@@ -38,9 +38,6 @@ class PlayState extends FlxState
 	private static var replaying:Bool = false;
 	
 	private var endStuff:FlxGroup;
-	#if use_newgrounds_api
-	private var flashAd:FlashAd;
-	#end
 	
 	override public function create():Void
 	{
@@ -70,59 +67,9 @@ class PlayState extends FlxState
 		_txtTimer.visible = false;
 		add(_txtTimer);
 		
-		
-		
-		
 		if (Main.fisrtRun)
 		{
 			FlxG.camera.fade(FlxColor.BLACK, 3, true, function(){Main.fisrtRun = false;});
-			#if use_newgrounds_api
-			API.addEventListener(APIEvent.FILE_SAVED, function(e:APIEvent)
-			{
-				if (e.success)
-				{
-					FlxG.log.add("saving was successful!");
-					FlxG.log.add(e.data);
-				}
-				else
-					FlxG.log.error("Error creating save: " + e.error);
-			});
-			
-			API.addEventListener(APIEvent.FILE_REQUESTED, function(e:APIEvent)
-			{
-				if (e.success)
-				{
-					FlxG.log.add("file requesting was successful!");
-					FlxG.log.add(e.data);
-				}
-				else
-					FlxG.log.error("error loading file: " + e.error);
-			});
-			
-			API.addEventListener(APIEvent.FILE_LOADED, function(e:APIEvent)
-			{
-				if (e.success)
-				{
-					FlxG.log.add("file loading was successful!");
-					// loadReplay(e.data.data);
-					
-					EndState.time = FlxMath.roundDecimal(_timer * 1000, 2);
-		
-					replaying = true;
-					recording = false;
-					
-					FlxG.vcr.stopRecording(false);
-					
-					var save = e.data.data.theReplay;
-					
-					FlxG.vcr.loadReplay(save, new PlayState(), ["ENTER"], 0, startRecording);
-								
-					FlxG.log.add(e.data);
-				}
-				else
-					FlxG.log.error("error requesting file: " + e.error);
-			});
-			#end	
 		}
 
 		if (replaying)
@@ -191,12 +138,6 @@ class PlayState extends FlxState
 		{
 			FlxG.camera.fade(FlxColor.WHITE, 0.5, false, function()
 			{
-				#if use_newgrounds_api
-				API.unlockMedal("real gamer");
-				API.postScore("Fastest Completion", Std.int(_timer * 1000 * 1000));
-				API.postScore("Times beaten", 1);
-				#end
-				
 				loadReplay();
 				// FlxG.switchState(new EndState()); 
 			});
@@ -224,18 +165,6 @@ class PlayState extends FlxState
 		if (dataOverride.length > 0)
 		{
 			save = dataOverride;
-		}
-		else
-		{
-			#if use_newgrounds_api
-			var saveFile = API.createSaveFile("Replays");
-			saveFile.data = {theReplay: save};
-			saveFile.name = "Test " + FlxG.random.int(0, 100);
-			saveFile.icon = _player.pixels;
-			saveFile.description = "seconds";
-			saveFile.save();
-			#end
-			
 		}
 		
 		FlxG.vcr.loadReplay(save, new PlayState(), ["ENTER"], 0, startRecording);
