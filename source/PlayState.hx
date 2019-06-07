@@ -100,14 +100,26 @@ class PlayState extends FlxState
 				if (e.success)
 				{
 					FlxG.log.add("file loading was successful!");
-					loadReplay(e.data.data);
+					// loadReplay(e.data.data);
+					
+					EndState.time = FlxMath.roundDecimal(_timer * 1000, 2);
+		
+					replaying = true;
+					recording = false;
+					
+					FlxG.vcr.stopRecording(false);
+					
+					var save = e.data.data.theReplay;
+					
+					FlxG.vcr.loadReplay(save, new PlayState(), ["ENTER"], 0, startRecording);
+								
 					FlxG.log.add(e.data);
 				}
 				else
 					FlxG.log.error("error requesting file: " + e.error);
 			});
 			
-				
+			
 		}
 
 		if (replaying)
@@ -209,10 +221,10 @@ class PlayState extends FlxState
 		else
 		{
 			var saveFile = API.createSaveFile("Replays");
-			saveFile.data = save;
+			saveFile.data = {theReplay: save};
 			saveFile.name = "Test " + FlxG.random.int(0, 100);
 			saveFile.icon = _player.pixels;
-			saveFile.description = Math.floor(EndState.time / 60) + "mins " + EndState.time % 60 + " seconds";
+			saveFile.description = "seconds";
 			saveFile.save();
 			
 		}
