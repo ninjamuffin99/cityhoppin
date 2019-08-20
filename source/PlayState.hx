@@ -72,7 +72,7 @@ class PlayState extends FlxState
 			FlxG.camera.fade(FlxColor.BLACK, 3, true, function(){Main.fisrtRun = false;});
 		}
 
-		if (replaying)
+		if (replaying) 
 		{
 			persistentDraw = persistentUpdate = true;
 			openSubState(new EndState());
