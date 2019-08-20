@@ -78,11 +78,7 @@ class Player4Keys extends Player
 				#if use_newgrounds_api
 				if (jumpsTotal == 7)
 				{
-<<<<<<< HEAD
 					//API.unlockMedal("the jump man");
-=======
-					// API.unlockMedal("the jump man");
->>>>>>> be2ef6398882177c0dc77eddfc848d7971336d37
 				}
 				#end
 				
