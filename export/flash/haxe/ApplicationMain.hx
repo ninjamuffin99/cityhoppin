@@ -1,386 +1,339 @@
-#if !macro
+package;
 
-
-@:access(lime.app.Application)
-@:access(lime.Assets)
-@:access(openfl.display.Stage)
-
-
-class ApplicationMain {
-	
-	
-	public static var config:lime.app.Config;
-	public static var preloader:openfl.display.Preloader;
-	
-	
-	public static function create ():Void {
-		
-		var app = new openfl.display.Application ();
-		app.create (config);
-		
-		var display = new flixel.system.FlxPreloader ();
-		
-		preloader = new openfl.display.Preloader (display);
-		app.setPreloader (preloader);
-		preloader.onComplete.add (init);
-		preloader.create (config);
-		
-		#if (js && html5)
-		var urls = [];
-		var types = [];
-		
-		
-		urls.push ("assets/data/data-goes-here.txt");
-		types.push (lime.Assets.AssetType.TEXT);
-		
-		
-		urls.push ("assets/data/gmtk.oep");
-		types.push (lime.Assets.AssetType.TEXT);
-		
-		
-		urls.push ("assets/data/level1.oel");
-		types.push (lime.Assets.AssetType.TEXT);
-		
-		
-		urls.push ("assets/data/levelBG.kra");
-		types.push (lime.Assets.AssetType.BINARY);
-		
-		
-		urls.push ("assets/data/levelBG.kra~");
-		types.push (lime.Assets.AssetType.BINARY);
-		
-		
-		urls.push ("assets/data/levelBGpng.png");
-		types.push (lime.Assets.AssetType.IMAGE);
-		
-		
-		urls.push ("assets/data/levelBGpng.png~");
-		types.push (lime.Assets.AssetType.BINARY);
-		
-		
-		urls.push ("assets/data/levelGood.png");
-		types.push (lime.Assets.AssetType.IMAGE);
-		
-		
-		urls.push ("assets/data/levelGood.tmx");
-		types.push (lime.Assets.AssetType.TEXT);
-		
-		
-		urls.push ("assets/data/tileset.png");
-		types.push (lime.Assets.AssetType.IMAGE);
-		
-		
-		urls.push ("assets/images/images-go-here.txt");
-		types.push (lime.Assets.AssetType.TEXT);
-		
-		
-		urls.push ("assets/images/levelBG.png");
-		types.push (lime.Assets.AssetType.IMAGE);
-		
-		
-		urls.push ("assets/images/levelBG.png~");
-		types.push (lime.Assets.AssetType.BINARY);
-		
-		
-		urls.push ("assets/images/mapSketch.kra");
-		types.push (lime.Assets.AssetType.BINARY);
-		
-		
-		urls.push ("assets/images/mapSketch.kra~");
-		types.push (lime.Assets.AssetType.BINARY);
-		
-		
-		urls.push ("assets/images/player.png");
-		types.push (lime.Assets.AssetType.IMAGE);
-		
-		
-		urls.push ("assets/images/player.png~");
-		types.push (lime.Assets.AssetType.BINARY);
-		
-		
-		urls.push ("assets/images/playerSpriteFile.aseprite");
-		types.push (lime.Assets.AssetType.BINARY);
-		
-		
-		urls.push ("assets/images/thumbnail.PNG");
-		types.push (lime.Assets.AssetType.IMAGE);
-		
-		
-		urls.push ("assets/music/music-goes-here.txt");
-		types.push (lime.Assets.AssetType.TEXT);
-		
-		
-		urls.push ("assets/sounds/ambience.mp3");
-		types.push (lime.Assets.AssetType.MUSIC);
-		
-		
-		urls.push ("assets/sounds/boost.wav");
-		types.push (lime.Assets.AssetType.SOUND);
-		
-		
-		urls.push ("assets/sounds/hitGround.wav");
-		types.push (lime.Assets.AssetType.SOUND);
-		
-		
-		urls.push ("assets/sounds/jumpBase.wav");
-		types.push (lime.Assets.AssetType.SOUND);
-		
-		
-		urls.push ("assets/sounds/sideJump.wav");
-		types.push (lime.Assets.AssetType.SOUND);
-		
-		
-		urls.push ("assets/sounds/sounds-go-here.txt");
-		types.push (lime.Assets.AssetType.TEXT);
-		
-		
-		urls.push ("flixel/sounds/beep.mp3");
-		types.push (lime.Assets.AssetType.MUSIC);
-		
-		
-		urls.push ("flixel/sounds/flixel.mp3");
-		types.push (lime.Assets.AssetType.MUSIC);
-		
-		
-		urls.push ("Nokia Cellphone FC Small");
-		types.push (lime.Assets.AssetType.FONT);
-		
-		
-		urls.push ("Monsterrat");
-		types.push (lime.Assets.AssetType.FONT);
-		
-		
-		urls.push ("flixel/images/ui/button.png");
-		types.push (lime.Assets.AssetType.IMAGE);
-		
-		
-		urls.push ("flixel/images/logo/default.png");
-		types.push (lime.Assets.AssetType.IMAGE);
-		
-		
-		
-		if (config.assetsPrefix != null) {
-			
-			for (i in 0...urls.length) {
-				
-				if (types[i] != lime.Assets.AssetType.FONT) {
-					
-					urls[i] = config.assetsPrefix + urls[i];
-					
-				}
-				
-			}
-			
-		}
-		
-		preloader.load (urls, types);
-		#end
-		
-		var result = app.exec ();
-		
-		#if (sys && !nodejs && !emscripten)
-		Sys.exit (result);
-		#end
-		
-	}
-	
-	
-	public static function init ():Void {
-		
-		var loaded = 0;
-		var total = 0;
-		var library_onLoad = function (__) {
-			
-			loaded++;
-			
-			if (loaded == total) {
-				
-				start ();
-				
-			}
-			
-		}
-		
-		preloader = null;
-		
-		
-		
-		
-		if (total == 0) {
-			
-			start ();
-			
-		}
-		
-	}
-	
-	
-	public static function main () {
-		
-		config = {
-			
-			build: "346",
-			company: "HaxeFlixel",
-			file: "GMTKJam",
-			fps: 60,
-			name: "GMTKJam",
-			orientation: "",
-			packageName: "com.example.myapp",
-			version: "0.0.1",
-			windows: [
-				
-				{
-					antialiasing: 0,
-					background: 0,
-					borderless: false,
-					depthBuffer: false,
-					display: 0,
-					fullscreen: false,
-					hardware: true,
-					height: 480,
-					parameters: "{}",
-					resizable: true,
-					stencilBuffer: true,
-					title: "GMTKJam",
-					vsync: false,
-					width: 960,
-					x: null,
-					y: null
-				},
-			]
-			
-		};
-		
-		#if hxtelemetry
-		var telemetry = new hxtelemetry.HxTelemetry.Config ();
-		telemetry.allocations = true;
-		telemetry.host = "localhost";
-		telemetry.app_name = config.name;
-		Reflect.setField (config, "telemetry", telemetry);
-		#end
-		
-		#if (js && html5)
-		#if (munit || utest)
-		openfl.Lib.embed (null, 960, 480, "000000");
-		#end
-		#else
-		create ();
-		#end
-		
-	}
-	
-	
-	public static function start ():Void {
-		
-		var hasMain = false;
-		var entryPoint = Type.resolveClass ("Main");
-		
-		for (methodName in Type.getClassFields (entryPoint)) {
-			
-			if (methodName == "main") {
-				
-				hasMain = true;
-				break;
-				
-			}
-			
-		}
-		
-		lime.Assets.initialize ();
-		
-		if (hasMain) {
-			
-			Reflect.callMethod (entryPoint, Reflect.field (entryPoint, "main"), []);
-			
-		} else {
-			
-			var instance:DocumentClass = Type.createInstance (DocumentClass, []);
-			
-			/*if (Std.is (instance, openfl.display.DisplayObject)) {
-				
-				openfl.Lib.current.addChild (cast instance);
-				
-			}*/
-			
-		}
-		
-		#if !flash
-		if (openfl.Lib.current.stage.window.fullscreen) {
-			
-			openfl.Lib.current.stage.dispatchEvent (new openfl.events.FullScreenEvent (openfl.events.FullScreenEvent.FULL_SCREEN, false, false, true, true));
-			
-		}
-		
-		openfl.Lib.current.stage.dispatchEvent (new openfl.events.Event (openfl.events.Event.RESIZE, false, false));
-		#end
-		
-	}
-	
-	
-	#if neko
-	@:noCompletion @:dox(hide) public static function __init__ () {
-		
-		var loader = new neko.vm.Loader (untyped $loader);
-		loader.addPath (haxe.io.Path.directory (Sys.executablePath ()));
-		loader.addPath ("./");
-		loader.addPath ("@executable_path/");
-		
-	}
-	#end
-	
-	
-}
-
-
-@:build(DocumentClass.build())
-@:keep class DocumentClass extends Main {}
-
-
-#else
-
-
+#if macro
+import haxe.macro.Compiler;
 import haxe.macro.Context;
 import haxe.macro.Expr;
+#end
 
+@:access(lime.app.Application)
+@:access(lime.system.System)
+@:access(openfl.display.Stage)
+@:dox(hide)
+class ApplicationMain
+{
+	#if !macro
+	public static function main()
+	{
+		lime.system.System.__registerEntryPoint("GMTKJam", create);
 
-class DocumentClass {
-	
-	
-	macro public static function build ():Array<Field> {
+		#if (js && html5)
+		#if (munit || utest)
+		lime.system.System.embed("GMTKJam", null, 960, 480);
+		#end
+		#else
+		create(null);
+		#end
+	}
+
+	public static function create(config):Void
+	{
+		var app = new openfl.display.Application();
+
+		ManifestResources.init(config);
+
+		app.meta["build"] = "15";
+		app.meta["company"] = "HaxeFlixel";
+		app.meta["file"] = "GMTKJam";
+		app.meta["name"] = "GMTKJam";
+		app.meta["packageName"] = "com.example.myapp";
+		app.meta["version"] = "0.0.1";
+
 		
-		var classType = Context.getLocalClass ().get ();
-		var searchTypes = classType;
+
+		#if !flash
 		
-		while (searchTypes.superClass != null) {
-			
-			if (searchTypes.pack.length == 2 && searchTypes.pack[1] == "display" && searchTypes.name == "DisplayObject") {
-				
-				var fields = Context.getBuildFields ();
-				
-				var method = macro {
-					
-					openfl.Lib.current.addChild (this);
-					super ();
-					dispatchEvent (new openfl.events.Event (openfl.events.Event.ADDED_TO_STAGE, false, false));
-					
+		var attributes:lime.ui.WindowAttributes = {
+			allowHighDPI: true,
+			alwaysOnTop: false,
+			borderless: false,
+			// display: 0,
+			element: null,
+			frameRate: 60,
+			#if !web fullscreen: false, #end
+			height: 480,
+			hidden: #if munit true #else false #end,
+			maximized: false,
+			minimized: false,
+			parameters: {},
+			resizable: true,
+			title: "GMTKJam",
+			width: 960,
+			x: null,
+			y: null,
+		};
+
+		attributes.context = {
+			antialiasing: 0,
+			background: 0,
+			colorDepth: 32,
+			depth: true,
+			hardware: true,
+			stencil: true,
+			type: null,
+			vsync: false
+		};
+
+		if (app.window == null)
+		{
+			if (config != null)
+			{
+				for (field in Reflect.fields(config))
+				{
+					if (Reflect.hasField(attributes, field))
+					{
+						Reflect.setField(attributes, field, Reflect.field(config, field));
+					}
+					else if (Reflect.hasField(attributes.context, field))
+					{
+						Reflect.setField(attributes.context, field, Reflect.field(config, field));
+					}
 				}
-				
-				fields.push ({ name: "new", access: [ APublic ], kind: FFun({ args: [], expr: method, params: [], ret: macro :Void }), pos: Context.currentPos () });
-				
-				return fields;
-				
 			}
-			
-			searchTypes = searchTypes.superClass.t.get ();
-			
+
+			#if sys
+			lime.system.System.__parseArguments(attributes);
+			#end
+		}
+
+		app.createWindow(attributes);
+		
+		#elseif !air
+		app.window.context.attributes.background = 0;
+		app.window.frameRate = 60;
+		#end
+
+		var preloader = getPreloader();
+		app.preloader.onProgress.add (function(loaded, total)
+		{
+			@:privateAccess preloader.update(loaded, total);
+		});
+		app.preloader.onComplete.add(function()
+		{
+			@:privateAccess preloader.start();
+		});
+
+		preloader.onComplete.add(start.bind(cast(app.window, openfl.display.Window).stage));
+
+		for (library in ManifestResources.preloadLibraries)
+		{
+			app.preloader.addLibrary(library);
+		}
+
+		for (name in ManifestResources.preloadLibraryNames)
+		{
+			app.preloader.addLibraryName(name);
+		}
+
+		app.preloader.load();
+
+		var result = app.exec();
+
+		#if (sys && !ios && !nodejs && !emscripten)
+		lime.system.System.exit(result);
+		#end
+	}
+
+	public static function start(stage:openfl.display.Stage):Void
+	{
+		#if flash
+		ApplicationMain.getEntryPoint();
+		#else
+		try {
+			ApplicationMain.getEntryPoint();
+
+			stage.dispatchEvent(new openfl.events.Event(openfl.events.Event.RESIZE, false, false));
+
+			if (stage.window.fullscreen)
+			{
+				stage.dispatchEvent(new openfl.events.FullScreenEvent(openfl.events.FullScreenEvent.FULL_SCREEN, false, false, true, true));
+			}
+		}
+		catch (e:Dynamic)
+		{
+			#if !display
+			stage.__handleError (e);
+			#end
+		}
+		#end
+	}
+	#end
+
+	macro public static function getEntryPoint()
+	{
+		var hasMain = false;
+
+		switch (Context.follow(Context.getType("Main")))
+		{
+			case TInst(t, params):
+
+				var type = t.get();
+				for (method in type.statics.get())
+				{
+					if (method.name == "main")
+					{
+						hasMain = true;
+						break;
+					}
+				}
+
+				if (hasMain)
+				{
+					return Context.parse("@:privateAccess Main.main()", Context.currentPos());
+				}
+				else if (type.constructor != null)
+				{
+					return macro
+					{
+						var current = stage.getChildAt (0);
+
+						if (current == null || !Std.is(current, openfl.display.DisplayObjectContainer))
+						{
+							current = new openfl.display.MovieClip();
+							stage.addChild(current);
+						}
+
+						new DocumentClass(cast current);
+					};
+				}
+				else
+				{
+					Context.fatalError("Main class \"Main\" has neither a static main nor a constructor.", Context.currentPos());
+				}
+
+			default:
+
+				Context.fatalError("Main class \"Main\" isn't a class.", Context.currentPos());
+		}
+
+		return null;
+	}
+
+	macro public static function getPreloader()
+	{
+		
+		var type = Context.getType("flixel.system.FlxPreloader");
+
+		switch (type)
+		{
+			case TInst(classType, _):
+
+				var searchTypes = classType.get();
+
+				while (searchTypes != null)
+				{
+					if (searchTypes.pack.length == 2 && searchTypes.pack[0] == "openfl" && searchTypes.pack[1] == "display" && searchTypes.name == "Preloader")
+					{
+						return macro
+						{
+							new flixel.system.FlxPreloader();
+						};
+					}
+
+					if (searchTypes.superClass != null)
+					{
+						searchTypes = searchTypes.superClass.t.get();
+					}
+					else
+					{
+						searchTypes = null;
+					}
+				}
+
+			default:
+		}
+
+		return macro
+		{
+			new openfl.display.Preloader(new flixel.system.FlxPreloader());
 		}
 		
-		return null;
-		
 	}
-	
-	
+
+	#if !macro
+	@:noCompletion @:dox(hide) public static function __init__()
+	{
+		var init = lime.app.Application;
+
+		#if neko
+		// Copy from https://github.com/HaxeFoundation/haxe/blob/development/std/neko/_std/Sys.hx#L164
+		// since Sys.programPath () isn't available in __init__
+		var sys_program_path = {
+			var m = neko.vm.Module.local().name;
+			try
+			{
+				sys.FileSystem.fullPath(m);
+			}
+			catch (e:Dynamic)
+			{
+				// maybe the neko module name was supplied without .n extension...
+				if (!StringTools.endsWith(m, ".n"))
+				{
+					try
+					{
+						sys.FileSystem.fullPath(m + ".n");
+					}
+					catch (e:Dynamic)
+					{
+						m;
+					}
+				}
+				else
+				{
+					m;
+				}
+			}
+		};
+
+		var loader = new neko.vm.Loader(untyped $loader);
+		loader.addPath(haxe.io.Path.directory(#if (haxe_ver >= 3.3) sys_program_path #else Sys.executablePath() #end));
+		loader.addPath("./");
+		loader.addPath("@executable_path/");
+		#end
+	}
+	#end
 }
 
+#if !macro
+@:build(DocumentClass.build())
+@:keep @:dox(hide) class DocumentClass extends Main {}
+#else
+class DocumentClass
+{
+	macro public static function build():Array<Field>
+	{
+		var classType = Context.getLocalClass().get();
+		var searchTypes = classType;
 
+		while (searchTypes != null)
+		{
+			if (searchTypes.module == "openfl.display.DisplayObject" || searchTypes.module == "flash.display.DisplayObject")
+			{
+				var fields = Context.getBuildFields();
+
+				var method = macro
+				{
+					current.addChild(this);
+					super();
+					dispatchEvent(new openfl.events.Event(openfl.events.Event.ADDED_TO_STAGE, false, false));
+				}
+
+				fields.push({ name: "new", access: [ APublic ], kind: FFun({ args: [ { name: "current", opt: false, type: macro :openfl.display.DisplayObjectContainer, value: null } ], expr: method, params: [], ret: macro :Void }), pos: Context.currentPos() });
+
+				return fields;
+			}
+
+			if (searchTypes.superClass != null)
+			{
+				searchTypes = searchTypes.superClass.t.get();
+			}
+			else
+			{
+				searchTypes = null;
+			}
+		}
+
+		return null;
+	}
+}
 #end

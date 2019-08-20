@@ -10,9 +10,6 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 
-import com.newgrounds.*;
-import com.newgrounds.components.*;
-
 /**
  * ...
  * @author 
@@ -24,8 +21,10 @@ class EndState extends FlxSubState
 	
 	private var bg:FlxSprite;
 	private var txt:FlxText;
+	#if use_newgrounds_api
 	private var flashAd:FlashAd;
-
+	#end
+	
 	override public function create():Void 
 	{
 		bg = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
@@ -39,16 +38,10 @@ class EndState extends FlxSubState
 		txt.scrollFactor.set();
 		add(txt);
 		
-		flashAd = new FlashAd();
-		flashAd.x = FlxG.width - flashAd.width - 30;
-		flashAd.y = 40;
-		FlxG.stage.addChild(flashAd);
-		
 		var visiButton:FlxButton = new FlxButton(40, FlxG.height - 50, "Toggle Overlay", function()
 		{
 			txt.visible = !txt.visible;
 			bg.visible = txt.visible;
-			flashAd.visible = txt.visible;
 		});
 			
 		add(visiButton);
@@ -60,21 +53,5 @@ class EndState extends FlxSubState
 	{
 		super.update(elapsed);
 	}
-	
-	override public function close():Void 
-	{
-		FlxG.stage.removeChild(flashAd);
-		
-		super.close();
-	}
-	
-	
-	override public function destroy():Void 
-	{
-		FlxG.stage.removeChild(flashAd);
-		
-		super.destroy();
-	}
-	
 	
 }
