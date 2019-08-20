@@ -21,9 +21,6 @@ class EndState extends FlxSubState
 	
 	private var bg:FlxSprite;
 	private var txt:FlxText;
-	#if use_newgrounds_api
-	private var flashAd:FlashAd;
-	#end
 	
 	override public function create():Void 
 	{
