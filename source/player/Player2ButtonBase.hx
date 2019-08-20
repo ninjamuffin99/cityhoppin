@@ -57,7 +57,7 @@ class Player2ButtonBase extends Player
 				#if use_newgrounds_api
 				if (jumpsTotal == 7)
 				{
-					API.unlockMedal("the jump man");
+					// API.unlockMedal("the jump man");
 				}
 				#end
 				

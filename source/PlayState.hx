@@ -19,10 +19,6 @@ import openfl.utils.Object;
 
 import player.Player;
 
-#if use_newgrounds_api
-import com.newgrounds.*;
-import com.newgrounds.components.*;
-#end
 class PlayState extends FlxState
 {
 	private var _player:Player;
