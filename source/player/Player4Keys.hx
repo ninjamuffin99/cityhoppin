@@ -203,9 +203,9 @@ class Player4Keys extends Player
 			
 			if (_up && !apexReached && canJump)
 			{
-				jumpBoost += 1 / (FlxG.elapsed / (1/60));
+				jumpBoost += 1;
 				
-				var C = FlxMath.fastCos(13 * jumpBoost * FlxG.elapsed);
+				var C = FlxMath.fastCos(13 * jumpBoost * (1 / 60));
 				if (C < 0)
 				{
 					apexReached = true;
@@ -231,7 +231,7 @@ class Player4Keys extends Player
 			var accX:Float = 1.4;
 			
 			if (jumpedStraightUp || sideBoosting)
-				accX += 2.9 / (FlxG.elapsed / (1/60));
+				accX += 2.9 * (FlxG.elapsed / (1/60));
 			
 			if (!justJumped)
 			{
