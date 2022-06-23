@@ -203,7 +203,7 @@ class Player4Keys extends Player
 			
 			if (_up && !apexReached && canJump)
 			{
-				jumpBoost += 1;
+				jumpBoost += 1 * (FlxG.elapsed / (1 / 60));
 				
 				var C = FlxMath.fastCos(13 * jumpBoost * (1 / 60));
 				if (C < 0)
@@ -212,7 +212,7 @@ class Player4Keys extends Player
 				}
 				else
 				{
-					velocity.y -= (C * (baseJumpStrength * 1.2) * jumpingCooldown);
+					velocity.y -= (C * (baseJumpStrength * 1.2) * jumpingCooldown) * (FlxG.elapsed / (1 / 60));
 					//FlxG.watch.addQuick("cosine", C);
 				}
 			}
