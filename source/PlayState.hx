@@ -56,7 +56,7 @@ class PlayState extends FlxState
 		FlxG.camera.follow(_player, FlxCameraFollowStyle.PLATFORMER);
 		_player.setPosition(player_start.x, player_start.y);
 		
-		FlxG.sound.playMusic(AssetPaths.ambience__mp3, 2.4);
+		FlxG.sound.playMusic(AssetPaths.ambience__ogg, 2.4);
 		
 		_txtTimer = new FlxText(20, 20, 0, "", 32);
 		_txtTimer.scrollFactor.set();
