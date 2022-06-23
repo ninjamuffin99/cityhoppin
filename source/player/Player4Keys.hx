@@ -82,7 +82,7 @@ class Player4Keys extends Player
 				}
 				#end
 				
-				velocity.y -= baseJumpStrength * 1.3;
+				velocity.y -= (baseJumpStrength * 1.3);
 				
 				if (jumpCounts > 0)
 				{
@@ -109,7 +109,7 @@ class Player4Keys extends Player
 					if (_left || _right)
 					{
 						jumpedStraightUp = false;
-						velocity.y -= baseJumpStrength * 0.2;
+						velocity.y -= (baseJumpStrength * 0.2);
 					}
 					
 					if (jumpedStraightUp)
@@ -135,7 +135,7 @@ class Player4Keys extends Player
 						if (velocity.x - oldVel < velocity.x)
 						{
 							jumpingCooldown = reverseJumpMult;
-							velocity.x /= reverseJumpMult * xSlowdown;
+							velocity.x /= (reverseJumpMult * xSlowdown);
 							FlxG.sound.play(AssetPaths.boost__wav, 0.7);
 						}
 					}
@@ -155,7 +155,7 @@ class Player4Keys extends Player
 						if (velocity.x + oldVel < velocity.x)
 						{
 							jumpingCooldown = reverseJumpMult;
-							velocity.x /= reverseJumpMult * xSlowdown;
+							velocity.x /= (reverseJumpMult * xSlowdown);
 							FlxG.sound.play(AssetPaths.boost__wav, 0.7);
 						}
 					}
@@ -203,7 +203,7 @@ class Player4Keys extends Player
 			
 			if (_up && !apexReached && canJump)
 			{
-				jumpBoost++;
+				jumpBoost += 1 / (FlxG.elapsed / (1/60));
 				
 				var C = FlxMath.fastCos(13 * jumpBoost * FlxG.elapsed);
 				if (C < 0)
@@ -212,7 +212,7 @@ class Player4Keys extends Player
 				}
 				else
 				{
-					velocity.y -= C * (baseJumpStrength * 1.2) * jumpingCooldown;
+					velocity.y -= (C * (baseJumpStrength * 1.2) * jumpingCooldown);
 					//FlxG.watch.addQuick("cosine", C);
 				}
 			}
@@ -231,7 +231,7 @@ class Player4Keys extends Player
 			var accX:Float = 1.4;
 			
 			if (jumpedStraightUp || sideBoosting)
-				accX += 2.9;
+				accX += 2.9 / (FlxG.elapsed / (1/60));
 			
 			if (!justJumped)
 			{

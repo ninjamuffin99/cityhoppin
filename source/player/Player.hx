@@ -18,7 +18,7 @@ class Player extends FlxSprite
 	private var justJumped:Bool = false;
 	
 	private var baseJumpStrength:Float = 100;
-	private var jumpBoost:Int = 0;
+	private var jumpBoost:Float = 0;
 	private var apexReached:Bool = false;
 	private var jumpingCooldown:Float = 1;
 	private var jumpCounts:Int = 0;
